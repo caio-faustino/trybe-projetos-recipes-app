@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 const passwordMinLength = 7;
 
@@ -9,6 +10,7 @@ const salvarUser = (email) => {
 function Login() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const history = useHistory();
 
   const disabled = !email.match(/\S+@\S+\.\S+/)
       || password.length < passwordMinLength;
@@ -27,8 +29,9 @@ function Login() {
     <form
       onSubmit={ (e) => {
         e.preventDefault();
-        if (disabled) return;
+        // if (disabled) return;
         salvarUser(email);
+        history.push('/meals');
       } }
     >
       <input
