@@ -5,6 +5,7 @@ import searchIcon from './images/searchIcon.svg';
 
 function Header(props) {
   const { title, iconeProfile = false, iconeSearch = false } = props;
+  const [mostrarPesquisa, setMostrarPesquisa] = React.useState(false);
 
   return (
     <div>
@@ -17,12 +18,26 @@ function Header(props) {
         )}
       { iconeSearch
         && (
-          <img
-            src={ searchIcon }
-            data-testid="search-top-btn"
-            alt="search"
-          />
+          <button
+            type="button"
+            style={ { border: 'none', background: 'none' } }
+            onClick={ () => setMostrarPesquisa(!mostrarPesquisa) }
+          >
+            <img
+              src={ searchIcon }
+              data-testid="search-top-btn"
+              alt="search"
+            />
+          </button>
         )}
+      { mostrarPesquisa && (
+        <input
+          type="search"
+          data-testid="search-input"
+          placeholder="Buscar Receitas"
+        />
+      )}
+
     </div>
   );
 }

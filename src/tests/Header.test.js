@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from './renderWith';
 import Header from '../Header';
 
@@ -48,5 +49,27 @@ describe('Header', () => {
 
     const searchEl = screen.queryByTestId(idIconePesquisa);
     expect(searchEl).toBeInTheDocument();
+  });
+
+  it('Shows the search input when the search icon is clicked', () => {
+    renderWithRouter(<Header title="Comidas" iconeSearch />);
+
+    const botaoPesquisar = screen.queryByTestId(idIconePesquisa);
+    expect(botaoPesquisar).toBeInTheDocument();
+
+    {
+      const searchInput = screen.queryByTestId('search-input');
+      expect(searchInput).toBeNull();
+    }
+    {
+      userEvent.click(botaoPesquisar);
+      const searchInput = screen.queryByTestId('search-input');
+      expect(searchInput).toBeInTheDocument();
+    }
+    {
+      userEvent.click(botaoPesquisar);
+      const searchInput = screen.queryByTestId('search-input');
+      expect(searchInput).toBeNull();
+    }
   });
 });
