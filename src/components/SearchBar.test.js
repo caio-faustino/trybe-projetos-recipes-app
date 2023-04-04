@@ -100,15 +100,9 @@ describe('Testing SearchBar component', () => {
       ok: true,
       json: () => Promise.resolve(produtos),
     }));
-    /*    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      ok: true,
-      json: jest.fn().mockResolvedValue(produtos),
-    }); */
 
     // Test the method pegarListaDeProdutos
     await expect(pegarListaDeProdutos('url', false)).resolves.toEqual(produtos.drinks);
-    // await expect(Promise.resolve('lemon')).resolves.toBe('lemon');
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(global.fetch).toHaveBeenCalledWith('url');
   });
