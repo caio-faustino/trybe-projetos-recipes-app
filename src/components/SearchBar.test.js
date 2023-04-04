@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { pegarEndpoint, pegarListaDeProdutos, SearchBar } from '../SearchBar';
-import { renderWithRouter } from './renderWith';
+import { renderWithRouter } from '../tests/renderWith';
 
 describe('Testing SearchBar component', () => {
   beforeAll(() => {
