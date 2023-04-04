@@ -1,7 +1,8 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
-export function SearchBar() {
-  const [checkbox, setCheckbox] = React.useState('ingredient');
+export function SearchBar(props) {
+  const { comida } = props;
   const [search, setSearch] = React.useState('');
 
   return (
@@ -19,7 +20,8 @@ export function SearchBar() {
 
         if (ingredientRadio.checked) {
           console.log('ingrediente');
-          endpoint = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${search}`;
+          if (comida) endpoint = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${search}`;
+          else { endpoint = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${search}`; }
         } else if (nameRadio.checked) {
           console.log('nome');
           endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`;

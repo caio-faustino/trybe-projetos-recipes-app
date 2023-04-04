@@ -1,9 +1,15 @@
 import React from 'react';
 import Header from '../Header';
+import Footer from '../components/Footer';
 
 function Drinks() {
   return (
-    <Header title="Drinks" iconeProfile iconeSearch />
+    <>
+      <div>
+        <Header title="Drinks" iconeProfile iconeSearch />
+      </div>
+      <Footer />
+    </>
   );
 }
 
