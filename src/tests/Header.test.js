@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from './renderWith';
 import Header from '../Header';
@@ -57,18 +57,19 @@ describe('Header', () => {
     const botaoPesquisar = screen.queryByTestId(idIconePesquisa);
     expect(botaoPesquisar).toBeInTheDocument();
 
+    const SEARH_INPUT = 'search-input';
     {
-      const searchInput = screen.queryByTestId('search-input');
+      const searchInput = screen.queryByTestId(SEARH_INPUT);
       expect(searchInput).toBeNull();
     }
     {
       userEvent.click(botaoPesquisar);
-      const searchInput = screen.queryByTestId('search-input');
+      const searchInput = screen.queryByTestId(SEARH_INPUT);
       expect(searchInput).toBeInTheDocument();
     }
     {
       userEvent.click(botaoPesquisar);
-      const searchInput = screen.queryByTestId('search-input');
+      const searchInput = screen.queryByTestId(SEARH_INPUT);
       expect(searchInput).toBeNull();
     }
   });

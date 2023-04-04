@@ -9,7 +9,10 @@ function Header(props) {
   const [mostrarPesquisa, setMostrarPesquisa] = React.useState(false);
 
   const history = useHistory();
-  const isMeal = React.useMemo(() => history.location.pathname.includes('/meals'), [history.location]);
+  const isMeal = React.useMemo(
+    () => history.location.pathname.includes('/meals'),
+    [history.location],
+  );
 
   return (
     <div>

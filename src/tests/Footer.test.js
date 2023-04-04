@@ -1,10 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import { renderWithRouter } from './renderWith';
-
-import App from '../App';
 import Footer from '../components/Footer';
-// import { renderWithRouter } from './helpers/renderWith';
 
 const drinksBottomBtn = 'drinks-bottom-btn';
 
