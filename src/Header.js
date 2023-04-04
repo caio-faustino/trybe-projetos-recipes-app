@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import profileIcon from './images/profileIcon.svg';
 import searchIcon from './images/searchIcon.svg';
 import { SearchBar } from './SearchBar';
@@ -7,6 +7,9 @@ import { SearchBar } from './SearchBar';
 function Header(props) {
   const { title, iconeProfile = false, iconeSearch = false } = props;
   const [mostrarPesquisa, setMostrarPesquisa] = React.useState(false);
+
+  const history = useHistory();
+  const isMeal = React.useMemo(() => history.location.pathname.includes('/meals'), [history.location]);
 
   return (
     <div>
@@ -31,7 +34,7 @@ function Header(props) {
             />
           </button>
         )}
-      { mostrarPesquisa && (<SearchBar />)}
+      { mostrarPesquisa && (<SearchBar isMeal={ isMeal } />)}
     </div>
   );
 }

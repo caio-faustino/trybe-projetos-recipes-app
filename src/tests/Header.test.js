@@ -10,7 +10,7 @@ const idIconeProfile = 'profile-top-btn';
 const idIconePesquisa = 'search-top-btn';
 describe('Header', () => {
   it('renders the correct title without icons', () => {
-    render(<Header title="Comidas" />);
+    renderWithRouter(<Header title="Comidas" />);
 
     const pageTitle = screen.getByTestId(idPageTitle);
     expect(pageTitle).toBeVisible();

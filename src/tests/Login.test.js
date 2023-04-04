@@ -41,7 +41,7 @@ describe('Teste do componente Login', () => {
     expect(botaoEnter).toBeEnabled();
 
     userEvent.click(botaoEnter);
-    expect(history.location.pathname).toBe('/receitas');
+    expect(history.location.pathname).toBe('/meals');
 
     // Testa se salvou no LocalStorage
     const emailLS = localStorage.getItem('user');

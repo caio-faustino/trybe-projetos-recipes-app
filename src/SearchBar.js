@@ -1,45 +1,61 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+
+export function pegarEndpoint(isMeal, searchTerm) {
+  const ingredientRadio = document
+    .querySelector('[data-testid="ingredient-search-radio"]');
+  const nameRadio = document.querySelector('[data-testid="name-search-radio"]');
+  const firstLetterRadio = document
+    .querySelector('[data-testid="first-letter-search-radio"]');
+
+  if (ingredientRadio?.checked) {
+    console.log('ingrediente');
+    if (isMeal) return `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchTerm}`;
+    return `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchTerm}`;
+  }
+  if (nameRadio?.checked) {
+    console.log('nome');
+    if (isMeal) return `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`;
+    return `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchTerm}`;
+  }
+  if (firstLetterRadio?.checked) {
+    console.log('primeira letra');
+    if (searchTerm.length > 1) {
+      const texto = 'Your search must have only 1 (one) character';
+      global.alert(texto);
+      // throw new Error(texto);
+      return;
+    }
+    if (isMeal) return `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchTerm}`;
+    return `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchTerm}`;
+  }
+  throw new Error('Nenhuma opção selecionada');
+}
+
+export async function pegarListaDeProdutos(endpoint, isMeal) {
+  if (!endpoint) return [];
+  console.log(endpoint);
+  const response = await fetch(endpoint);
+  if (!response.ok) {
+    throw new Error('Retorno não ok');
+  } else {
+    const json = await response.json();
+    if (isMeal) return json.meals || [];
+    return json.drinks || [];
+  }
+}
 
 export function SearchBar(props) {
-  const { comida } = props;
+  const { isMeal } = props;
   const [search, setSearch] = React.useState('');
 
   return (
     <form
       className="search-bar"
-      onSubmit={ (event) => {
+      onSubmit={ async (event) => {
         event.preventDefault();
-        let endpoint;
-
-        const ingredientRadio = document
-          .querySelector('[data-testid="ingredient-search-radio"]');
-        const nameRadio = document.querySelector('[data-testid="name-search-radio"]');
-        const firstLetterRadio = document
-          .querySelector('[data-testid="first-letter-search-radio"]');
-
-        if (ingredientRadio.checked) {
-          console.log('ingrediente');
-          if (comida) endpoint = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${search}`;
-          else { endpoint = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${search}`; }
-        } else if (nameRadio.checked) {
-          console.log('nome');
-          endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`;
-        } else if (firstLetterRadio.checked) {
-          console.log('primeira letra');
-          if (search.length > 1) {
-            global.alert('Your search must have only 1 (one) character');
-            return;
-          }
-          endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?f=${search}`;
-        }
-        let json;
-        // Fetch the data
-        const funcao = async () => {
-          const response = await fetch(endpoint);
-          json = await response.json();
-        };
-        funcao();
+        const endpoint = pegarEndpoint(isMeal, search);
+        const mealsOrDrinksList = await pegarListaDeProdutos(endpoint, isMeal);
+        console.log(mealsOrDrinksList);
       } }
     >
       <input
@@ -85,3 +101,4 @@ export function SearchBar(props) {
     </form>
   );
 }
+SearchBar.propTypes = {}.isRequired;
