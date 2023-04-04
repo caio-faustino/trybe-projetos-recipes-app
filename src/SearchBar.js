@@ -1,12 +1,51 @@
 import React from 'react';
 
 export function SearchBar() {
+  const [checkbox, setCheckbox] = React.useState('ingredient');
+  const [search, setSearch] = React.useState('');
+
   return (
-    <div className="search-bar">
+    <form
+      className="search-bar"
+      onSubmit={ (event) => {
+        event.preventDefault();
+        let endpoint;
+
+        const ingredientRadio = document
+          .querySelector('[data-testid="ingredient-search-radio"]');
+        const nameRadio = document.querySelector('[data-testid="name-search-radio"]');
+        const firstLetterRadio = document
+          .querySelector('[data-testid="first-letter-search-radio"]');
+
+        if (ingredientRadio.checked) {
+          console.log('ingrediente');
+          endpoint = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${search}`;
+        } else if (nameRadio.checked) {
+          console.log('nome');
+          endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`;
+        } else if (firstLetterRadio.checked) {
+          console.log('primeira letra');
+          if (search.length > 1) {
+            global.alert('Your search must have only 1 (one) character');
+            return;
+          }
+          endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?f=${search}`;
+        }
+        let json;
+        // Fetch the data
+        const funcao = async () => {
+          const response = await fetch(endpoint);
+          json = await response.json();
+        };
+        funcao();
+      } }
+    >
       <input
         type="search"
         data-testid="search-input"
         placeholder="Buscar Receitas"
+        value={ search }
+        onChange={ ({ target: { value } }) => setSearch(value) }
       />
       <div className="search-options">
         <label htmlFor="ingredient-search-radio">
@@ -40,7 +79,7 @@ export function SearchBar() {
           Buscar pela primeira letra
         </label>
       </div>
-      <button type="button" data-testid="exec-search-btn">Buscar</button>
-    </div>
+      <button type="submit" data-testid="exec-search-btn">Buscar</button>
+    </form>
   );
 }
