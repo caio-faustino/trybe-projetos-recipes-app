@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import profileIcon from './images/profileIcon.svg';
 import searchIcon from './images/searchIcon.svg';
+import { SearchBar } from './SearchBar';
 
 function Header(props) {
   const { title, iconeProfile = false, iconeSearch = false } = props;
@@ -30,14 +31,7 @@ function Header(props) {
             />
           </button>
         )}
-      { mostrarPesquisa && (
-        <input
-          type="search"
-          data-testid="search-input"
-          placeholder="Buscar Receitas"
-        />
-      )}
-
+      { mostrarPesquisa && (<SearchBar />)}
     </div>
   );
 }
