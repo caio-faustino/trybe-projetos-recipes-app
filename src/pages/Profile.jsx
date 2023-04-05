@@ -6,7 +6,7 @@ function Profile() {
   return (
     <>
       <div>
-        <Header title="Profile" search={ false } />
+        <Header title="Profile" iconeProfile search={ false } />
       </div>
       <Footer />
 

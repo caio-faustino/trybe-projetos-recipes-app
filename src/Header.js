@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import profileIcon from './images/profileIcon.svg';
 import searchIcon from './images/searchIcon.svg';
 import { SearchBar } from './SearchBar';
+import './Header.css';
 
 function Header(props) {
   const { title, iconeProfile = false, iconeSearch = false } = props;
@@ -13,21 +14,20 @@ function Header(props) {
     () => history.location.pathname.includes('/meals'),
     [history.location],
   );
-
   return (
     <div>
       <h1 data-testid="page-title">{title}</h1>
       { iconeProfile
         && (
-          <Link to="/profile">
+          <Link className="icone-link" to="/profile">
             <img src={ profileIcon } data-testid="profile-top-btn" alt="profile" />
           </Link>
         )}
       { iconeSearch
         && (
           <button
+            className="icone-link"
             type="button"
-            style={ { border: 'none', background: 'none' } }
             onClick={ () => setMostrarPesquisa(!mostrarPesquisa) }
           >
             <img
