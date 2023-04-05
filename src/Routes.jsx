@@ -8,7 +8,7 @@ import Drink from './pages/Drink';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Profile from './pages/Profile';
-import Recipe from './pages/Recipe';
+import RecipeDetails from './pages/RecipeDetails';
 
 export default function Routes() {
   return (
@@ -19,7 +19,7 @@ export default function Routes() {
       <Route exact path="/drinks/:id" component={ Drink } />
       <Route exact path="/drinks" component={ Drinks } />
       <Route exact path="/meals/:id/in-progress" component={ MealInProgress } />
-      <Route exact path="/meals/:id" component={ Recipe } />
+      <Route exact path="/meals/:id" component={ RecipeDetails } />
       <Route exact path="/meals" component={ Recipes } />
       <Route exact path="/profile" component={ Profile } />
       <Route exact path="/" component={ Login } />

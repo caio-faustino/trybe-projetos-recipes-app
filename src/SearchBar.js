@@ -82,13 +82,13 @@ export function SearchBar(props) {
             if (isMeal && mealsOrDrinksList.length === 1) {
               history.push({
                 pathname: `/meals/${mealsOrDrinksList[0].idMeal}`,
-                state: mealsOrDrinksList,
+                state: 'meal',
               });
             }
             if (!isMeal && mealsOrDrinksList.length === 1) {
               history.push({
                 pathname: `/drinks/${mealsOrDrinksList[0].idDrinks}`,
-                state: mealsOrDrinksList,
+                state: 'drink',
               });
             }
             if (mealsOrDrinksList.length > 1) {
