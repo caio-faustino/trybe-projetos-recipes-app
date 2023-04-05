@@ -75,7 +75,7 @@ export function SearchBar(props) {
           // console.log(event);
           const endpoint = pegarEndpoint(isMeal, search);
           const mealsOrDrinksList = await pegarListaDeProdutos(endpoint, isMeal);
-          // console.log(mealsOrDrinksList);
+          console.log(mealsOrDrinksList);
 
           if (mealsOrDrinksList.length > 0) {
             // console.log(mealsOrDrinksList[0].idDrink);
@@ -86,8 +86,9 @@ export function SearchBar(props) {
               });
             }
             if (!isMeal && mealsOrDrinksList.length === 1) {
+              console.log(mealsOrDrinksList[0]);
               history.push({
-                pathname: `/drinks/${mealsOrDrinksList[0].idDrinks}`,
+                pathname: `/drinks/${mealsOrDrinksList[0].idDrink}`,
                 state: 'drink',
               });
             }
