@@ -6,8 +6,7 @@ function Receita() {
 
   return (
     <p>
-      olar sou uma receita de
-      {' '}
+      olar sou uma receita de id
       {id}
     </p>
   );
