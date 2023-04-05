@@ -1,9 +1,16 @@
 import React from 'react';
 import Header from '../Header';
+import Footer from '../components/Footer';
 
 function MealInProgress() {
   return (
-    <Header title="Drinks" />
+    <>
+      <div>
+        <Header title="Drinks" search />
+      </div>
+
+      <Footer />
+    </>
   );
 }
 

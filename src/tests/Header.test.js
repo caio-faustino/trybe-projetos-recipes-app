@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from './renderWith';
 import Header from '../Header';
 
@@ -9,7 +10,7 @@ const idIconeProfile = 'profile-top-btn';
 const idIconePesquisa = 'search-top-btn';
 describe('Header', () => {
   it('renders the correct title without icons', () => {
-    render(<Header title="Comidas" />);
+    renderWithRouter(<Header title="Comidas" />);
 
     const pageTitle = screen.getByTestId(idPageTitle);
     expect(pageTitle).toBeVisible();
@@ -48,5 +49,28 @@ describe('Header', () => {
 
     const searchEl = screen.queryByTestId(idIconePesquisa);
     expect(searchEl).toBeInTheDocument();
+  });
+
+  it('Shows the search input when the search icon is clicked', () => {
+    renderWithRouter(<Header title="Comidas" iconeSearch />);
+
+    const botaoPesquisar = screen.queryByTestId(idIconePesquisa);
+    expect(botaoPesquisar).toBeInTheDocument();
+
+    const SEARH_INPUT = 'search-input';
+    {
+      const searchInput = screen.queryByTestId(SEARH_INPUT);
+      expect(searchInput).toBeNull();
+    }
+    {
+      userEvent.click(botaoPesquisar);
+      const searchInput = screen.queryByTestId(SEARH_INPUT);
+      expect(searchInput).toBeInTheDocument();
+    }
+    {
+      userEvent.click(botaoPesquisar);
+      const searchInput = screen.queryByTestId(SEARH_INPUT);
+      expect(searchInput).toBeNull();
+    }
   });
 });
