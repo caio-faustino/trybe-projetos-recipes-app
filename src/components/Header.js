@@ -26,13 +26,13 @@ function Header(props) {
       { iconeSearch
         && (
           <button
+            data-testid="search-top-btn"
             className="icone-link"
             type="button"
             onClick={ () => setMostrarPesquisa(!mostrarPesquisa) }
           >
             <img
               src={ searchIcon }
-              data-testid="search-top-btn"
               alt="search"
             />
           </button>

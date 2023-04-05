@@ -42,19 +42,19 @@ export async function pegarListaDeProdutos(endpoint, isMeal) {
   if (!endpoint) return [];
   // console.log(endpoint);
   const response = await fetch(endpoint);
-  if (!response.ok) {
-    throw new Error('Retorno não ok');
-  } else {
-    const json = await response.json();
-    if (!json.drinks && !json.meals) {
-      global.alert(ERRO_SEM_RESULTADOS);
-      return [];
-    }
-    if (isMeal && json.meals) return json.meals;
-    if (!isMeal && json.drinks) return json.drinks;
-
+  // if (!response.ok) {
+  //   throw new Error('Retorno não ok');
+  // } else {
+  const json = await response.json();
+  if (!json.drinks && !json.meals) {
+    global.alert(ERRO_SEM_RESULTADOS);
     return [];
   }
+  if (isMeal && json.meals) return json.meals;
+  if (!isMeal && json.drinks) return json.drinks;
+
+  return [];
+  // }
 }
 
 export function SearchBar(props) {
@@ -86,7 +86,6 @@ export function SearchBar(props) {
               });
             }
             if (!isMeal && mealsOrDrinksList.length === 1) {
-              console.log(mealsOrDrinksList[0]);
               history.push({
                 pathname: `/drinks/${mealsOrDrinksList[0].idDrink}`,
                 state: 'drink',
