@@ -1,12 +1,12 @@
 import React from 'react';
-import Header from '../Header';
+import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function Profile() {
   return (
     <>
       <div>
-        <Header title="Profile" search={ false } />
+        <Header title="Profile" iconeProfile search={ false } />
       </div>
       <Footer />
 
