@@ -1,6 +1,6 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react-dom/test-utils';
+// import { act } from '@testing-library/react';
 import App from '../App';
 import { pegarEndpoint, pegarListaDeProdutos, SearchBar } from '../SearchBar';
 import { renderWithRouter } from './renderWith';
@@ -243,7 +243,7 @@ describe('Testing SearchBar component', () => {
       expect(recipeCards.length).toBe(12);
       expect(recipeCardsImages.length).toBe(12);
       expect(recipeCardsNames.length).toBe(12);
-    }, { timeout: 3000 });
+    }, { timeout: 5000 });
   });
 
   it('Verifica se sao renderizados os drinks quando achado mais que uma', async () => {

@@ -55,11 +55,11 @@ export async function pegarListaDeProdutos(endpoint, isMeal) {
 
 export function SearchBar(props) {
   const { isMeal } = props;
-  const [search, setSearch] = useState('');
-  const [searched, setSearched] = useState(false);
-  const [recipes, setRecipes] = useState([]);
   const history = useHistory();
-
+  const { pathname } = history.location;
+  const [search, setSearch] = useState('');
+  // const [searched, setSearched] = useState(false);
+  const [recipes, setRecipes] = useState([]);
   const limiteDeReceitas = 12;
 
   return (
@@ -74,7 +74,6 @@ export function SearchBar(props) {
           console.log(mealsOrDrinksList);
 
           if (mealsOrDrinksList.length > 0) {
-            // console.log(mealsOrDrinksList[0].idDrink);
             if (isMeal && mealsOrDrinksList.length === 1) {
               history.push({
                 pathname: `/meals/${mealsOrDrinksList[0].idMeal}`,
@@ -89,7 +88,7 @@ export function SearchBar(props) {
             }
             if (mealsOrDrinksList.length > 1) {
               setRecipes(mealsOrDrinksList);
-              setSearched(true);
+              // setSearched(true);
             }
           }
         } }
@@ -136,27 +135,31 @@ export function SearchBar(props) {
         <button type="submit" data-testid="exec-search-btn">Buscar</button>
       </form>
 
-      { searched && isMeal
+      { (recipes)
         && (
-          recipes.slice(0, limiteDeReceitas).map((element, index) => (
-            <RecipeCard
-              index={ index }
-              key={ index }
-              name={ element.strMeal }
-              image={ element.strMealThumb }
-            />
-          ))
-        )}
-      { (searched && !isMeal)
-        && (
-          recipes.slice(0, limiteDeReceitas).map((element, index) => (
-            <RecipeCard
-              index={ index }
-              key={ index }
-              name={ element.strDrink }
-              image={ element.strDrinkThumb }
-            />
-          ))
+          <div>
+            { pathname.includes('meals')
+              ? (
+                recipes.slice(0, limiteDeReceitas).map((element, index) => (
+                  <RecipeCard
+                    index={ index }
+                    key={ index }
+                    name={ element.strMeal }
+                    image={ element.strMealThumb }
+                  />
+                ))
+              )
+              : (
+                recipes.slice(0, limiteDeReceitas).map((element, index) => (
+                  <RecipeCard
+                    index={ index }
+                    key={ index }
+                    name={ element.strDrink }
+                    image={ element.strDrinkThumb }
+                  />
+                ))
+              )}
+          </div>
         )}
     </div>
 
