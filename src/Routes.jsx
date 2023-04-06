@@ -4,7 +4,6 @@ import Recipes from './pages/Recipes';
 import Drinks from './pages/Drinks';
 import MealInProgress from './pages/MealInProgress';
 import DrinkInProgress from './pages/DrinkInProgress';
-import Drink from './pages/Drink';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Profile from './pages/Profile';
@@ -16,7 +15,7 @@ export default function Routes() {
       <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
       <Route exact path="/done-recipes" component={ DoneRecipes } />
       <Route exact path="/drinks/:id/in-progress" component={ DrinkInProgress } />
-      <Route exact path="/drinks/:id" component={ Drink } />
+      <Route exact path="/drinks/:id" component={ RecipeDetails } />
       <Route exact path="/drinks" component={ Drinks } />
       <Route exact path="/meals/:id/in-progress" component={ MealInProgress } />
       <Route exact path="/meals/:id" component={ RecipeDetails } />
