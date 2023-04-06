@@ -40,11 +40,7 @@ export function pegarEndpoint(isMeal, searchTerm) {
 
 export async function pegarListaDeProdutos(endpoint, isMeal) {
   if (!endpoint) return [];
-  // console.log(endpoint);
   const response = await fetch(endpoint);
-  // if (!response.ok) {
-  //   throw new Error('Retorno não ok');
-  // } else {
   const json = await response.json();
   if (!json.drinks && !json.meals) {
     global.alert(ERRO_SEM_RESULTADOS);

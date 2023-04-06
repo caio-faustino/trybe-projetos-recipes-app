@@ -197,7 +197,7 @@ describe('Testing SearchBar component', () => {
     }, { timeout: 3000 });
   });
 
-  it('Verifica se e renderizado as comidas quando achado mais que uma', async () => {
+  it('Verifica se e renderizado ate 12 comidas quando achado mais que uma', async () => {
     const { history } = renderWithRouter(<App />);
     act(() => {
       history.push('/meals');
