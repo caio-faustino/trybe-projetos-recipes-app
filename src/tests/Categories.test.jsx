@@ -31,7 +31,7 @@ describe('Testa o elemento Categories', () => {
 
     render(<Categories isMeal />);
     await act(async () => {
-      await CATEGORIA_MOCK;
+      // await CATEGORIA_MOCK;
     });
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
@@ -58,7 +58,7 @@ describe('Testa o elemento Categories', () => {
 
     render(<Categories isMeal={ false } />);
     await act(async () => {
-      await CATEGORIA_MOCK;
+      // await CATEGORIA_MOCK;
     });
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
@@ -95,13 +95,62 @@ describe('Testa o elemento Categories', () => {
     const FALHA_REGEX = /Falhei rude/i;
     const falhaFn = () => Promise.reject(FALHA_MSG);
     global.fetch = jest.fn(falhaFn);
-    act(() => {
-      render(<Categories isMeal />);
-    });
+    render(<Categories isMeal />);
     await act(async () => {
-      await falhaFn;
+      // await falhaFn;
     });
 
     expect(screen.getByText(FALHA_REGEX)).toBeVisible();
+  });
+
+  it('Edge case 4', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      ok: false,
+      json: jest.fn(() => ({})),
+    });
+
+    expect(await fetchCategories(true)).toEqual([]);
+    expect(await fetchCategories(false)).toEqual([]);
+  });
+
+  it('Edge case 5', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      ok: true,
+      json: null,
+    });
+
+    expect(await fetchCategories(true)).toEqual([]);
+    expect(await fetchCategories(false)).toEqual([]);
+  });
+
+  it('Edge case 6', async () => {
+    const CATEGORIA_MOCK = Promise.resolve({
+      meals: [
+        { strCategory: 'Cat1' },
+        { strCategory: 'Cat2' },
+        { strCategory: 'Cat3' },
+        { strCategory: 'Cat4' },
+        { strCategory: 'Cat5' },
+        { strCategory: 'Cat6' },
+        { strCategory: 'Cat7' },
+      ],
+    });
+    const EXPECTED_RETURN = [
+      { strCategory: 'Cat1' },
+      { strCategory: 'Cat2' },
+    ];
+
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      ok: true,
+      json: jest.fn(() => CATEGORIA_MOCK),
+    });
+
+    const len = EXPECTED_RETURN.length;
+    const retornado = await fetchCategories(true, len);
+    expect(retornado).toHaveLength(len);
+    expect(retornado).toEqual(EXPECTED_RETURN);
   });
 });

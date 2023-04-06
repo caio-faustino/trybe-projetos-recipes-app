@@ -11,6 +11,8 @@ function RecipeDetails() {
   const [ingredientes, setIngredientes] = useState([]);
   const [video, setVideo] = useState('');
   const limiteDeReceitas = 6;
+  console.log(drinkRecomendados);
+  console.log(comidasRecomendadas);
   // const limiteDeIngredientes = 21;
   // // const [tipoReceita, setTipo] = useState('');
   useEffect(() => {

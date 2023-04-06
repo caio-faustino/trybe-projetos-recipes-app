@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAsync } from '../useAsync';
 import { fetchCategories } from '../util/fetchCategories';
 
 function CategoriesWrapped({ isMeal }) {
-  const { execute, status, value, error } = useAsync(() => fetchCategories(isMeal), false);
+  const { status, value, error } = useAsync(() => fetchCategories(isMeal));
 
-  useEffect(() => {
-    execute();
-  }, []);
   // console.log('status', status);
   return (
     <>
@@ -34,4 +31,4 @@ function CategoriesWrapped({ isMeal }) {
 
 CategoriesWrapped.propTypes = { }.isRequired;
 
-export const Categories = CategoriesWrapped;
+export const Categories = React.memo(CategoriesWrapped);

@@ -29,6 +29,6 @@ export const useAsync = (asyncFunction, immediate = true) => {
     if (immediate) {
       execute();
     }
-  }, [execute, immediate]);
+  }, []);
   return { execute, status, value, error };
 };

@@ -71,7 +71,7 @@ export function SearchBar(props) {
           // console.log(event);
           const endpoint = pegarEndpoint(isMeal, search);
           const mealsOrDrinksList = await pegarListaDeProdutos(endpoint, isMeal);
-          console.log(mealsOrDrinksList);
+          // console.log(mealsOrDrinksList);
 
           if (mealsOrDrinksList.length > 0) {
             if (isMeal && mealsOrDrinksList.length === 1) {

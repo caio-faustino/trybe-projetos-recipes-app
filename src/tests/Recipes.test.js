@@ -1,6 +1,8 @@
+import Recipes from '../pages/Recipes';
 import { renderWithRouter } from './renderWith';
-import { Categories } from '../components/Categories';
 
 describe('Recipes', () => {
-
+  it('should render the recipes', async () => {
+    renderWithRouter(<Recipes />);
+  });
 });

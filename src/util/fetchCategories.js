@@ -6,6 +6,7 @@ export const fetchCategories = async (isMeal, maximo = MAX_CAT) => {
   const response = await fetch(endpoint);
   if (!response.ok) return [];
   // console.log('response', response);
+  if (!response.json && typeof response.json !== 'function') return [];
   const data = await response.json();
   // console.log('data: ', data);
   if (!data) return [];
