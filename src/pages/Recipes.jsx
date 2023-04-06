@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { Categories } from '../components/Categories';
 
 function Receitas() {
   const history = useHistory();
@@ -17,6 +18,7 @@ function Receitas() {
       <div>
         <Header title={ titulo } iconeProfile iconeSearch />
       </div>
+      <Categories isMeal />
       <Footer />
     </>
   );

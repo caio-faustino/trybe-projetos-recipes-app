@@ -1,6 +1,5 @@
-import { screen, waitFor, act } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-// import { act } from '@testing-library/react';
 import App from '../App';
 import { pegarEndpoint, pegarListaDeProdutos, SearchBar } from '../SearchBar';
 import { renderWithRouter } from './renderWith';
@@ -82,10 +81,6 @@ describe('Testing SearchBar component', () => {
       ],
     };
 
-    /*    global.fetch = jest.fn(() => Promise.resolve({
-      ok: true,
-      json: () => Promise.resolve(produtos),
-    })); */
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
       ok: true,
@@ -134,9 +129,14 @@ describe('Testing SearchBar component', () => {
   });
 
   it('Verifica se o usuario e redirecionado a pagina de detalhes daa comida caso seja retornada somente uma na pesquisa', async () => {
+    global.fetch = jest.fn(() => Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(),
+    }));
+
     // const { history } = renderWithRouter(<SearchBar isMeal />);
-    const { history } = renderWithRouter(<App />);
     act(() => {
+      const { history } = renderWithRouter(<App />);
       history.push('/meals');
     });
     const RECEITA_MOCK = {
@@ -167,8 +167,13 @@ describe('Testing SearchBar component', () => {
   });
 
   it('Verifica se o usuario e redirecionado a pagina de detalhes de um drink caso seja retornada somente um na pesquisa', async () => {
-    const { history } = renderWithRouter(<App />);
+    global.fetch = jest.fn(() => Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(),
+    }));
+
     act(() => {
+      const { history } = renderWithRouter(<App />);
       history.push('/drinks');
     });
     const RECEITA_MOCK = {
@@ -200,6 +205,7 @@ describe('Testing SearchBar component', () => {
   it('Verifica se e renderizado ate 12 comidas quando achado mais que uma', async () => {
     const { history } = renderWithRouter(<App />);
     act(() => {
+      const { history } = renderWithRouter(<App />);
       history.push('/meals');
     });
     const RECEITA_MOCK = {
@@ -247,8 +253,13 @@ describe('Testing SearchBar component', () => {
   });
 
   it('Verifica se sao renderizados os drinks quando achado mais que uma', async () => {
-    const { history } = renderWithRouter(<App />);
+    global.fetch = jest.fn(() => Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(),
+    }));
+
     act(() => {
+      const { history } = renderWithRouter(<App />);
       history.push('/drinks');
     });
     const RECEITA_MOCK = {
