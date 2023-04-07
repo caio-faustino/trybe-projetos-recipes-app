@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import RecipeCard from './components/RecipeCard';
 
 const ERRO_BUSCA_POR_LETRA = 'Your search must have only 1 (one) character';
-const ERRO_SEM_RESULTADOS = 'Sorry, we haven\'t found any recipes for these filters';
+const ERRO_SEM_RESULTADOS = 'Sorry, we haven\'t found any recipes for these filters.';
 
 export function pegarEndpoint(isMeal, searchTerm) {
   const ingredientRadio = document
