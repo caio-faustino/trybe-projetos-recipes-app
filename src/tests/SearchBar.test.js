@@ -4,12 +4,21 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import { pegarEndpoint, pegarListaDeProdutos, SearchBar } from '../SearchBar';
 import { renderWithRouter } from './renderWith';
-import { mockarCategorias, mockarFetch, restaurarFetch } from '../util/mockadores';
+import {
+  mockarAlert,
+  mockarCategorias,
+  mockarFetch,
+  restaurarFetch,
+} from '../util/mockadores';
 
 import mealIcon from '../images/mealIcon.svg';
 import drinkIcon from '../images/drinkIcon.svg';
 
 describe('Testing SearchBar component', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   const searchInputID = 'search-input';
   const searchButtonID = 'exec-search-btn';
   const radioButtonIngredientID = 'ingredient-search-radio';
@@ -40,10 +49,9 @@ describe('Testing SearchBar component', () => {
     userEvent.click(radioButtonFristLetter);
     expect(pegarEndpoint(true, 'A')).toBe('https://www.themealdb.com/api/json/v1/1/search.php?f=A');
 
-    global.alert = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    mockarAlert();
     pegarEndpoint(true, PESQUISAR);
     expect(global.alert).toHaveBeenCalledTimes(1);
-    global.alert.mockRestore();
   });
 
   it('Testa a função pegarEndpoint para bebidas', async () => {
@@ -70,7 +78,7 @@ describe('Testing SearchBar component', () => {
     userEvent.click(terceiroRadio);
     expect(pegarEndpoint(false, 'A')).toBe('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=A');
 
-    global.alert = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    mockarAlert();
     pegarEndpoint(true, PESQUISAR);
     expect(global.alert).toHaveBeenCalledTimes(1);
   });
@@ -82,8 +90,6 @@ describe('Testing SearchBar component', () => {
         { idMeal: '112', strMeal: 'comida2', strMealThumb: mealIcon },
       ],
     };
-
-    jest.spyOn(global, 'fetch');
     mockarFetch(RECEITA_MOCK);
 
     // Test the method pegarListaDeProdutos
@@ -94,11 +100,9 @@ describe('Testing SearchBar component', () => {
 
   it('Verificar se chama alerta ao receber da API obj vazio', async () => {
     const RECEITA_MOCK = {};
-
-    jest.spyOn(global, 'fetch');
     mockarFetch(RECEITA_MOCK);
 
-    global.alert = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    mockarAlert();
     const data = await pegarListaDeProdutos('url', true);
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(global.fetch).toHaveBeenCalledWith('url');

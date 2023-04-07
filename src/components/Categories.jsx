@@ -1,24 +1,22 @@
-import React, { useEffect } from 'react';
-import { useAsync } from '../useAsync';
-import { fetchCategories } from '../util/fetchCategories';
+import React from 'react';
+import useSWR from 'swr';
+import { fetchCategories } from '../util/fetchers';
 
 function CategoriesWrapped({ isMeal }) {
-  const { execute, status, value, error } = useAsync(() => fetchCategories(isMeal));
+  const { data, error, isLoading } = useSWR(
+    `categories/meal:${isMeal}`,
+    () => fetchCategories(isMeal),
+  );
 
-  useEffect(() => {
-    execute();
-  }, [execute]);
-
-  console.log('status', status);
   return (
     <>
-      { status === 'pending' && (<div>Carregando categorias...</div>)}
-      { status === 'error' && (
+      { isLoading && (<div>Carregando categorias...</div>)}
+      { !isLoading && error && (
         <div>
           Não foi possível carregar categorias:
           {error.message}
         </div>) }
-      { status === 'success' && value.map((category) => {
+      { !isLoading && data && data.map((category) => {
         const categoria = category.strCategory;
         return (
           <div

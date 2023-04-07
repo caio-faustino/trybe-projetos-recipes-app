@@ -1,12 +1,20 @@
-const MAX_CAT = 5;
-export const fetchCategories = async (isMeal, maximo = MAX_CAT) => {
-  let endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
-  if (isMeal) endpoint = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+export const fetchJson = async (...args) => {
+  const response = await fetch(...args);
+  return response.json();
+};
 
-  const response = await fetch(endpoint);
+export const headersJson = { headers: { Accept: 'application/json' } };
+
+const MAX_CAT = 5;
+
+export const fetchCategories = async (isMeal, maximo = MAX_CAT) => {
+  const endpoint = isMeal
+    ? 'https://www.themealdb.com/api/json/v1/1/list.php?c=list'
+    : 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+
+  const response = await fetch(endpoint, { headers: { Accept: 'application/json' } });
   if (!response.ok) return [];
   // console.log('response', response);
-  if (!response.json && typeof response.json !== 'function') return [];
   const data = await response.json();
   // console.log('data: ', data);
   if (!data) return [];
