@@ -1,6 +1,7 @@
 import { act, render, screen } from '@testing-library/react';
 import { Categories } from '../components/Categories';
 import { fetchCategories } from '../util/fetchCategories';
+import { mockarFetchComErro, restaurarFetch } from '../util/mockadores';
 
 async function testarChave(CATEGORIA_MOCK, chave) {
   const resultado = await CATEGORIA_MOCK;
@@ -90,17 +91,28 @@ describe('Testa o elemento Categories', () => {
     expect(await fetchCategories(false)).toEqual([]);
   });
 
-  it('Edge case 3', async () => {
+  it('Falha na busca de categorias', async () => {
     const FALHA_MSG = 'Falhei rude';
     const FALHA_REGEX = /Falhei rude/i;
-    const falhaFn = () => Promise.reject(FALHA_MSG);
-    global.fetch = jest.fn(falhaFn);
-    render(<Categories isMeal />);
-    await act(async () => {
-      // await falhaFn;
+    const promise = Promise.reject(FALHA_MSG);
+    // mockarFetchComErro(FALHA_MSG);
+    jest.spyOn(global, 'fetch');
+    global.fetch = jest.fn().mockImplementation(() => promise);
+    act(() => {
+      render(<Categories isMeal />);
     });
+    try {
+      await act(async () => {
+        await promise;
+      });
+    } catch (error) {
+      expect(error).toBe(FALHA_MSG);
+    }
 
-    expect(screen.getByText(FALHA_REGEX)).toBeVisible();
+    const textoFalha = await screen.findByText(FALHA_REGEX);
+    expect(textoFalha).toBeVisible();
+
+    restaurarFetch();
   });
 
   it('Edge case 4', async () => {
