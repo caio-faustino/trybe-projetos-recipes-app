@@ -143,7 +143,7 @@ describe('Testing SearchBar component', () => {
     restaurarFetch();
   });
 
-  it('Verifica se o usuário é redirecionado a pagina de detalhes daa comida caso seja'
+  it('Verifica se o usuário é redirecionado a pagina de detalhes da comida caso seja'
         + ' retornada somente uma na pesquisa', async () => {
     mockarCategorias();
     const { history } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
@@ -285,5 +285,50 @@ describe('Testing SearchBar component', () => {
     await waitFor(() => expect(recipeCardsImages.length).toBe(3));
     await waitFor(() => expect(recipeCardsNames.length).toBe(3));
     restaurarFetch();
+  });
+
+  it('Verifica se e renderizado ate 12 bebidas quando achado mais que uma', async () => {
+    mockarCategorias();
+    renderWithRouter(<App />, { initialEntries: ['/drinks'] });
+    restaurarFetch();
+
+    const RECEITA_MOCK = {
+      drinks: [
+        { idDrink: '111', strDrink: 'bebida1', strDrinkThumb: drinkIcon },
+        { idDrink: '112', strDrink: 'bebida2', strDrinkThumb: drinkIcon },
+        { idDrink: '113', strDrink: 'bebida3', strDrinkThumb: drinkIcon },
+        { idDrink: '114', strDrink: 'bebida4', strDrinkThumb: drinkIcon },
+        { idDrink: '115', strDrink: 'bebida5', strDrinkThumb: drinkIcon },
+        { idDrink: '116', strDrink: 'bebida6', strDrinkThumb: drinkIcon },
+        { idDrink: '117', strDrink: 'bebida7', strDrinkThumb: drinkIcon },
+        { idDrink: '118', strDrink: 'bebida8', strDrinkThumb: drinkIcon },
+        { idDrink: '119', strDrink: 'bebida9', strDrinkThumb: drinkIcon },
+        { idDrink: '120', strDrink: 'bebida10', strDrinkThumb: drinkIcon },
+        { idDrink: '121', strDrink: 'bebida11', strDrinkThumb: drinkIcon },
+        { idDrink: '122', strDrink: 'bebida12', strDrinkThumb: drinkIcon },
+        { idDrink: '123', strDrink: 'bebida13', strDrinkThumb: drinkIcon },
+        { idDrink: '124', strDrink: 'bebida14', strDrinkThumb: drinkIcon },
+      ],
+    };
+
+    mockarFetch(RECEITA_MOCK);
+
+    const botaoIniciarPesquisa = await screen.findByTestId(/search-top-btn/);
+    userEvent.click(botaoIniciarPesquisa);
+
+    const searchInput = await screen.findByTestId(searchInputID);
+    const botaoPesquisar = await screen.findByTestId(searchButtonID);
+    const radioButtonFristLetter = await screen.findByTestId(radioButtonFristLetterID);
+    userEvent.type(searchInput, 'c');
+    userEvent.click(radioButtonFristLetter);
+    userEvent.click(botaoPesquisar);
+
+    const recipeCards = await screen.findAllByTestId(/recipe-card/);
+    const recipeCardsImages = await screen.findAllByTestId(/card-name/);
+    const recipeCardsNames = await screen.findAllByTestId(/card-img/);
+
+    await waitFor(() => expect(recipeCards.length).toBe(12));
+    await waitFor(() => expect(recipeCardsImages.length).toBe(12));
+    await waitFor(() => expect(recipeCardsNames.length).toBe(12));
   });
 });
