@@ -3,8 +3,12 @@ import useSWR from 'swr';
 import { fetchCategories } from '../util/fetchers';
 
 function CategoriesWrapped({ isMeal }) {
+  // console.log('CategoriesWrapped: isMeal: ', isMeal);
+  const trem = isMeal ? 'meals' : 'drinks';
+  // console.log(`Estou procurando: ${trem}`);
+
   const { data, error, isLoading } = useSWR(
-    `categories/meal:${isMeal}`,
+    `categories/${trem}`,
     () => fetchCategories(isMeal),
   );
 

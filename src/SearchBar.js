@@ -52,8 +52,7 @@ export async function pegarListaDeProdutos(endpoint, isMeal) {
   // }
 }
 
-export function SearchBar(props) {
-  const { isMeal } = props;
+export function SearchBar({ isMeal }) {
   const history = useHistory();
   const { pathname } = history.location;
   const [search, setSearch] = useState('');
