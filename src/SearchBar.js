@@ -43,7 +43,6 @@ export async function pegarListaDeProdutos(endpoint, isMeal) {
   const response = await fetch(endpoint);
   const json = await response.json();
   if (!json.drinks && !json.meals) {
-    global.alert(ERRO_SEM_RESULTADOS);
     return [];
   }
   if (isMeal && json.meals) return json.meals;
@@ -71,6 +70,7 @@ export function SearchBar(props) {
           // console.log(event);
           const endpoint = pegarEndpoint(isMeal, search);
           const mealsOrDrinksList = await pegarListaDeProdutos(endpoint, isMeal);
+          if (mealsOrDrinksList.length === 0) global.alert(ERRO_SEM_RESULTADOS);
           // console.log(mealsOrDrinksList);
 
           if (mealsOrDrinksList.length > 0) {

@@ -99,15 +99,32 @@ describe('Testing SearchBar component', () => {
   });
 
   it('Verificar se chama alerta ao receber da API obj vazio', async () => {
+    mockarAlert();
+    mockarCategorias();
+    // const data = await pegarListaDeProdutos('url', true);
+    renderWithRouter(<App />, { initialEntries: ['/meals'] });
+    await act(async () => { });
+    jest.spyOn(global, 'fetch').mockClear();
+
     const RECEITA_MOCK = {};
     mockarFetch(RECEITA_MOCK);
 
-    mockarAlert();
-    const data = await pegarListaDeProdutos('url', true);
-    expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith('url');
+    const botaoIniciarPesquisa = await screen.findByTestId(/search-top-btn/);
+    userEvent.click(botaoIniciarPesquisa);
+
+    const searchInput = await screen.findByTestId(searchInputID);
+    const radioButtonName = await screen.findByTestId(radioButtonNameID);
+    const botaoPesquisar = await screen.findByTestId(searchButtonID);
+
+    userEvent.type(searchInput, 'inexistente');
+    userEvent.click(radioButtonName);
+    userEvent.click(botaoPesquisar);
+
+    // expect(global.fetch).toHaveBeenCalledTimes(1);
+    // expect(global.fetch).toHaveBeenCalledWith('url');
+    await act(async () => { });
     expect(global.alert).toHaveBeenCalledTimes(1);
-    expect(data).toEqual([]);
+    // expect(data).toEqual([]);
   });
 
   it('Verificar se chama o fetch com drinks', async () => {
@@ -150,7 +167,6 @@ describe('Testing SearchBar component', () => {
 
     const botaoPesquisar = await screen.findByTestId(searchButtonID);
     userEvent.click(botaoPesquisar);
-    restaurarFetch();
 
     await waitFor(() => {
       expect(history.location.pathname).toBe('/meals/111');

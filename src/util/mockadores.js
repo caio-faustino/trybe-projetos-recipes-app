@@ -1,3 +1,4 @@
+/*
 export function generateGuid() {
   const TRINTA_E_SEIS = 36;
   const DOIS = 2;
@@ -8,6 +9,7 @@ export function generateGuid() {
   console.log('generateGuid', resultado);
   return resultado;
 }
+*/
 
 export function restaurarFetch() {
   jest.spyOn(global, 'fetch').mockRestore();
@@ -32,5 +34,5 @@ export function mockarCategorias() {
 }
 
 export function mockarAlert() {
-  jest.spyOn(window, 'alert').mockImplementation(() => {});
+  jest.spyOn(global, 'alert').mockImplementation(() => {});
 }
