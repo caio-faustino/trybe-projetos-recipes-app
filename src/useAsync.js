@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
-export const useAsync = (asyncFunction, immediate = true) => {
+export const useAsync = (asyncFunction) => {
   const [status, setStatus] = useState('idle');
   const [value, setValue] = useState(null);
   const [error, setError] = useState(null);
@@ -22,13 +22,5 @@ export const useAsync = (asyncFunction, immediate = true) => {
         setStatus('error');
       });
   }, [asyncFunction]);
-    // Call execute if we want to fire it right away.
-    // Otherwise execute can be called later, such as
-    // in an onClick handler.
-  useEffect(() => {
-    if (immediate) {
-      execute();
-    }
-  }, [execute, immediate]);
   return { execute, status, value, error };
 };

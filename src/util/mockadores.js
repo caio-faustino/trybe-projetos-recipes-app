@@ -6,6 +6,11 @@ export function mockarFetch(json) {
   });
 }
 
+export function mockarFetchComErro(erro) {
+  jest.spyOn(global, 'fetch');
+  global.fetch.mockRejectedValue(erro);
+}
+
 export function restaurarFetch() {
   global.fetch.mockRestore();
 }
