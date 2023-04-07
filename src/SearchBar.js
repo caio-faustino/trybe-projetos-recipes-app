@@ -45,10 +45,9 @@ export async function pegarListaDeProdutos(endpoint, isMeal) {
   if (!json.drinks && !json.meals) {
     return [];
   }
-  if (isMeal && json.meals) return json.meals;
-  if (!isMeal && json.drinks) return json.drinks;
+  if (isMeal) return json.meals;
+  return json.drinks;
 
-  return [];
   // }
 }
 

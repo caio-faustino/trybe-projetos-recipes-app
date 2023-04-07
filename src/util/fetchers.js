@@ -12,12 +12,12 @@ export const fetchCategories = async (isMeal, maximo = MAX_CAT) => {
     ? 'https://www.themealdb.com/api/json/v1/1/list.php?c=list'
     : 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
 
-  console.log('endpoint', endpoint);
+  // console.log('endpoint', endpoint);
   const response = await fetch(endpoint, { headers: { Accept: 'application/json' } });
   if (!response.ok) return [];
   // console.log('response', response);
   const data = await response.json();
-  console.log('data: ', data);
+  // console.log('data: ', data);
   if (!data) return [];
   const chaves = Object.keys(data);
   if (!chaves.includes('meals') && !chaves.includes('drinks')) return [];
