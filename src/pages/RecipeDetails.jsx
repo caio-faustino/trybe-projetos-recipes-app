@@ -3,26 +3,35 @@ import { useParams, useHistory } from 'react-router-dom';
 
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import BlackHeartIcon from '../images/blackHeartIcon.svg';
 
 function RecipeDetails() {
   const { id } = useParams();
   const history = useHistory();
   const { pathname } = history.location;
   const [receita, setReceita] = useState();
+  const [isFavorite, setIsFavorite] = useState(false);
   const [drinkRecomendados, setDrinkRecomendados] = useState([]);
   const [comidasRecomendadas, setComidasRecomendadas] = useState([]);
+  const [receitasFavoritas, setReceitasFavoritas] = useState([]);
   const [ingredientes, setIngredientes] = useState([]);
   const [video, setVideo] = useState('');
   const [linkCopiado, setLinkCopiado] = useState(false);
   const limiteDeReceitas = 6;
   const tempoMsgDeCopiado = 3500;
-  // // const [tipoReceita, setTipo] = useState('');
   useEffect(() => {
+    // Aqui eu recupero o LocalStorage
+    setReceitasFavoritas(JSON.parse(localStorage.getItem('favoriteRecipes')));
     if (pathname.includes('meals')) {
       fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
         .then((response) => response.json())
         .then((data) => {
           setReceita(data.meals[0]);
+          // if (
+          //   receitasFavoritas.find((e) => e.id === data.meals[0].id)
+          // ) { setIsFavorite(true); }
+          // console.log(receitasFavoritas);
+          // ReceitasFavoritas ainda nao foi setado nesse ponto
         });
       fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
         .then((response) => response.json())
@@ -31,7 +40,6 @@ function RecipeDetails() {
         });
     }
     if (pathname.includes('drinks')) {
-      console.log('Passei');
       fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`)
         .then((response) => response.json())
         .then((data) => {
@@ -47,8 +55,12 @@ function RecipeDetails() {
 
   useEffect(() => {
     if (receita) {
+      // if (receitasFavoritas) {
+      //   if (receitasFavoritas.find((e) => e.id === receita.id)) {
+      //     console.log('doideira');
+      //   }
+      // }
       const limiteDeIngredientes = 21;
-      console.log(Object.keys(receita));
       const keysIngredients = Object.keys(receita)
         .filter((element) => element.includes('Ingredient'));
       const keysMeasurements = Object.keys(receita)
@@ -58,19 +70,16 @@ function RecipeDetails() {
       for (let i = 0; i < limiteDeIngredientes; i += 1) {
         if ((receita[keysIngredients[i]] == null
            || (receita[keysIngredients[i]] === ''))) {
-          console.log(i);
           limite = keysIngredients.slice(0, i).length;
           break;
         }
       }
-      console.log(limite);
       const data = keysIngredients.slice(0, limite)
         .map((element, index) => [
           element,
           `${index}-ingredient-name-and-measure`,
           keysMeasurements[index]]);
       setIngredientes(data);
-
       if (receita.strYoutube) {
         const ytVideo = receita.strYoutube;
         ytVideo.slice(ytVideo.indexOf('='), ytVideo.length);
@@ -80,7 +89,6 @@ function RecipeDetails() {
       }
     }
   }, [receita]);
-
   async function copyTextToClipboard(text) {
     if ('clipboard' in navigator) {
       return navigator.clipboard.writeText(text);
@@ -98,7 +106,37 @@ function RecipeDetails() {
         console.log(e);
       });
   };
-
+  const handleFavoriteClick = () => {
+    if (pathname.includes('meals')) {
+      const meal = {
+        id: receita.idMeal,
+        type: 'meal',
+        nationality: receita.strArea,
+        category: receita.strCategory,
+        alcoholicOrNot: '',
+        name: receita.strMeal,
+        image: receita.strMealThumb,
+      };
+      const recipeTemp = [...receitasFavoritas, meal];
+      setReceitasFavoritas(recipeTemp);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(recipeTemp));
+    } else {
+      const drink = {
+        id: receita.idDrink,
+        type: 'drink',
+        nationality: '',
+        category: receita.strCategory,
+        alcoholicOrNot: receita.strAlcoholic,
+        name: receita.strDrink,
+        image: receita.strDrinkThumb,
+      };
+      const recipeTemp = [...receitasFavoritas, drink];
+      setReceitasFavoritas(recipeTemp);
+      localStorage.setItem('favoriteRecipes', JSON.stringify({ recipeTemp }));
+    }
+  };
+  // console.log(isFavorite);
+  // console.log(receitasFavoritas);
   return (
     <div>
       {
@@ -129,11 +167,11 @@ function RecipeDetails() {
                     <button
                       data-testid="favorite-btn"
                       className="icone-link"
+                      onClick={ handleFavoriteClick }
                     >
                       <img src={ whiteHeartIcon } alt="favorite" />
                     </button>
                   </div>
-
                   <div>
                     <h2 data-testid="recipe-category">Ingredients</h2>
                     {
@@ -147,7 +185,6 @@ function RecipeDetails() {
                       ))
                     }
                   </div>
-
                   <div>
                     <h2 data-testid="recipe-category">Instructions</h2>
                     <p data-testid="instructions">{receita.strInstructions}</p>
@@ -192,7 +229,6 @@ function RecipeDetails() {
                       <img src={ whiteHeartIcon } alt="favorite" />
                     </button>
                   </div>
-
                   <div>
                     <h2 data-testid="recipe-category">Ingredients</h2>
                     {
@@ -206,7 +242,6 @@ function RecipeDetails() {
                       ))
                     }
                   </div>
-
                   <div>
                     <h2 data-testid="recipe-category">Instructions</h2>
                     <p data-testid="instructions">{receita.strInstructions}</p>
@@ -223,6 +258,7 @@ function RecipeDetails() {
             bottom: '0px' } }
           className="start-button"
           data-testid="start-recipe-btn"
+          onClick={ () => {history.push(`${pathname}/in-progress`)} }
         >
           Start Recipe
         </button>
