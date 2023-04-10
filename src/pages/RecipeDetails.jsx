@@ -11,8 +11,6 @@ function RecipeDetails() {
   const [ingredientes, setIngredientes] = useState([]);
   const [video, setVideo] = useState('');
   const limiteDeReceitas = 6;
-  console.log(drinkRecomendados);
-  console.log(comidasRecomendadas);
   // const limiteDeIngredientes = 21;
   // // const [tipoReceita, setTipo] = useState('');
   useEffect(() => {
@@ -46,7 +44,7 @@ function RecipeDetails() {
   useEffect(() => {
     if (receita) {
       const limiteDeIngredientes = 21;
-
+      console.log(Object.keys(receita));
       const keysIngredients = Object.keys(receita)
         .filter((element) => element.includes('Ingredient'));
       const keysMeasurements = Object.keys(receita)
@@ -54,7 +52,9 @@ function RecipeDetails() {
 
       let limite = 0;
       for (let i = 0; i < limiteDeIngredientes; i += 1) {
-        if (receita[keysIngredients[i]] === '') {
+        if ((receita[keysIngredients[i]] == null
+           || (receita[keysIngredients[i]] === ''))) {
+          console.log(i);
           limite = keysIngredients.slice(0, i).length;
           break;
         }
@@ -87,98 +87,98 @@ function RecipeDetails() {
             { pathname.includes('meals')
               ? (
                 <div>
-                  <img
-                    data-testid="recipe-photo"
-                    src={ receita.strMealThumb }
-                    alt="foto da receita"
-                  />
-                  <h1 data-testid="recipe-title">{receita.strMeal}</h1>
-                  <p data-testid="recipe-category">
-                    {receita.strCategory}
-                  </p>
+                  <div>
+                    <img
+                      data-testid="recipe-photo"
+                      src={ receita.strMealThumb }
+                      alt="foto da receita"
+                    />
+                    <h1 data-testid="recipe-title">{receita.strMeal}</h1>
+                    <p data-testid="recipe-category">
+                      {receita.strCategory}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h2 data-testid="recipe-category">Ingredients</h2>
+                    {
+                      ingredientes.map((element, index) => (
+                        <li
+                          key={ index }
+                          data-testid={ element[1] }
+                        >
+                          {`${receita[element[0]]}:${receita[element[2]]}`}
+                        </li>
+                      ))
+                    }
+                  </div>
+
+                  <div>
+                    <h2 data-testid="recipe-category">Instructions</h2>
+                    <p data-testid="instructions">{receita.strInstructions}</p>
+                  </div>
+
+                  <div>
+                    <iframe
+                      data-testid="video"
+                      title="Video"
+                      width="420"
+                      height="315"
+                      src={ video }
+                    />
+                  </div>
                 </div>
 
               )
               : (
                 <div>
-                  <img
-                    data-testid="recipe-photo"
-                    src={ receita.strDrinkThumb }
-                    alt="foto da receita"
-                  />
-                  <h1 data-testid="recipe-title">{receita.strDrink}</h1>
-                  <p data-testid="recipe-category">
-                    {`${receita.strCategory} : ${receita.strAlcoholic}`}
-                  </p>
-                </div>
-              )}
+                  <div>
+                    <img
+                      data-testid="recipe-photo"
+                      src={ receita.strDrinkThumb }
+                      alt="foto da receita"
+                    />
+                    <h1 data-testid="recipe-title">{receita.strDrink}</h1>
+                    <p data-testid="recipe-category">
+                      {`${receita.strCategory} : ${receita.strAlcoholic}`}
+                    </p>
+                  </div>
 
-            { pathname.includes('meals')
-              ? (
-                <div>
-                  <h2 data-testid="recipe-category">Ingredients</h2>
-                  {
-                    ingredientes.map((element, index) => (
-                      <li
-                        key={ index }
-                        data-testid={ element[1] }
-                      >
-                        {`${receita[element[0]]}:${receita[element[2]]}`}
-                      </li>
-                    ))
-                  }
+                  <div>
+                    <h2 data-testid="recipe-category">Ingredients</h2>
+                    {
+                      ingredientes.map((element, index) => (
+                        <li
+                          key={ index }
+                          data-testid={ element[1] }
+                        >
+                          {`${receita[element[0]]}:${receita[element[2]]}`}
+                        </li>
+                      ))
+                    }
+                  </div>
 
-                </div>
-              )
-              : (
-                <div>
-                  <h2 data-testid="recipe-category">Ingredients</h2>
-                  {
-                    ingredientes.map((element, index) => (
-                      <li
-                        key={ index }
-                        data-testid={ element[1] }
-                      >
-                        {`${receita[element[0]]}:${receita[element[2]]}`}
-                      </li>
-                    ))
-                  }
+                  <div>
+                    <h2 data-testid="recipe-category">Instructions</h2>
+                    <p data-testid="instructions">{receita.strInstructions}</p>
+                  </div>
 
                 </div>
               )}
-
-            { pathname.includes('meals')
-              ? (
-                <div>
-                  <h2 data-testid="recipe-category">Instructions</h2>
-                  <p data-testid="instructions">{receita.strInstructions}</p>
-
-                </div>
-              )
-              : (
-                <div>
-                  <h2 data-testid="recipe-category">Instructions</h2>
-                  <p data-testid="instructions">{receita.strInstructions}</p>
-
-                </div>
-              )}
-
-            { pathname.includes('meals') && (
-              <div>
-                <iframe
-                  data-testid="video"
-                  title="Video"
-                  width="420"
-                  height="315"
-                  src={ video }
-                />
-
-              </div>
-            )}
           </div>
         )
       }
-
+      <div>
+        <button
+          style={ { position: 'fixed',
+            bottom: '0px' } }
+          className="start-button"
+          data-testid="start-recipe-btn"
+          // disabled={ disabled }
+        >
+          Start Recipe
+        </button>
+      </div>
     </div>
   );
 }
