@@ -10,10 +10,8 @@ function Header(props) {
   const [mostrarPesquisa, setMostrarPesquisa] = React.useState(false);
 
   const history = useHistory();
-  const isMeal = React.useMemo(
-    () => history.location.pathname.includes('/meals'),
-    [history.location],
-  );
+  const isMeal = history.location.pathname.includes('/meals');
+  // console.log(history.location.pathname);
   return (
     <div>
       <h1 data-testid="page-title">{title}</h1>
@@ -26,12 +24,12 @@ function Header(props) {
       { iconeSearch
         && (
           <button
-            data-testid="search-top-btn"
             className="icone-link"
             type="button"
             onClick={ () => setMostrarPesquisa(!mostrarPesquisa) }
           >
             <img
+              data-testid="search-top-btn"
               src={ searchIcon }
               alt="search"
             />

@@ -2,6 +2,7 @@ import React from 'react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import { render } from '@testing-library/react';
+import { SWRConfig } from 'swr';
 
 function withRouter(component, history) {
   return (
@@ -9,6 +10,15 @@ function withRouter(component, history) {
       { component }
     </Router>
   );
+}
+
+function withCacheAndRouter(component, history) {
+  const newComponent = (
+    <SWRConfig value={ { provider: () => new Map() } }>
+      {component}
+    </SWRConfig>
+  );
+  return withRouter(newComponent, history);
 }
 
 export function renderWithRouter(
@@ -19,7 +29,7 @@ export function renderWithRouter(
   } = {},
 ) {
   return {
-    ...render(withRouter(component, history)),
+    ...render(withCacheAndRouter(component, history)),
     history,
   };
 }

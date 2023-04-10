@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import RecipeCard from './components/RecipeCard';
 
 const ERRO_BUSCA_POR_LETRA = 'Your search must have only 1 (one) character';
-const ERRO_SEM_RESULTADOS = 'Sorry, we haven\'t found any recipes for these filters';
+const ERRO_SEM_RESULTADOS = 'Sorry, we haven\'t found any recipes for these filters.';
 
 export function pegarEndpoint(isMeal, searchTerm) {
   const ingredientRadio = document
@@ -40,30 +40,23 @@ export function pegarEndpoint(isMeal, searchTerm) {
 
 export async function pegarListaDeProdutos(endpoint, isMeal) {
   if (!endpoint) return [];
-  // console.log(endpoint);
   const response = await fetch(endpoint);
-  // if (!response.ok) {
-  //   throw new Error('Retorno não ok');
-  // } else {
   const json = await response.json();
   if (!json.drinks && !json.meals) {
-    global.alert(ERRO_SEM_RESULTADOS);
     return [];
   }
-  if (isMeal && json.meals) return json.meals;
-  if (!isMeal && json.drinks) return json.drinks;
+  if (isMeal) return json.meals;
+  return json.drinks;
 
-  return [];
   // }
 }
 
-export function SearchBar(props) {
-  const { isMeal } = props;
-  const [search, setSearch] = useState('');
-  const [searched, setSearched] = useState(false);
-  const [recipes, setRecipes] = useState([]);
+export function SearchBar({ isMeal }) {
   const history = useHistory();
-
+  const { pathname } = history.location;
+  const [search, setSearch] = useState('');
+  // const [searched, setSearched] = useState(false);
+  const [recipes, setRecipes] = useState([]);
   const limiteDeReceitas = 12;
 
   return (
@@ -75,10 +68,10 @@ export function SearchBar(props) {
           // console.log(event);
           const endpoint = pegarEndpoint(isMeal, search);
           const mealsOrDrinksList = await pegarListaDeProdutos(endpoint, isMeal);
-          console.log(mealsOrDrinksList);
+          if (mealsOrDrinksList.length === 0) global.alert(ERRO_SEM_RESULTADOS);
+          // console.log(mealsOrDrinksList);
 
           if (mealsOrDrinksList.length > 0) {
-            // console.log(mealsOrDrinksList[0].idDrink);
             if (isMeal && mealsOrDrinksList.length === 1) {
               history.push({
                 pathname: `/meals/${mealsOrDrinksList[0].idMeal}`,
@@ -93,7 +86,7 @@ export function SearchBar(props) {
             }
             if (mealsOrDrinksList.length > 1) {
               setRecipes(mealsOrDrinksList);
-              setSearched(true);
+              // setSearched(true);
             }
           }
         } }
@@ -140,27 +133,31 @@ export function SearchBar(props) {
         <button type="submit" data-testid="exec-search-btn">Buscar</button>
       </form>
 
-      { searched && isMeal
+      { (recipes)
         && (
-          recipes.slice(0, limiteDeReceitas).map((element, index) => (
-            <RecipeCard
-              index={ index }
-              key={ index }
-              name={ element.strMeal }
-              image={ element.strMealThumb }
-            />
-          ))
-        )}
-      { (searched && !isMeal)
-        && (
-          recipes.slice(0, limiteDeReceitas).map((element, index) => (
-            <RecipeCard
-              index={ index }
-              key={ index }
-              name={ element.strDrink }
-              image={ element.strDrinkThumb }
-            />
-          ))
+          <div>
+            { pathname.includes('meals')
+              ? (
+                recipes.slice(0, limiteDeReceitas).map((element, index) => (
+                  <RecipeCard
+                    index={ index }
+                    key={ index }
+                    name={ element.strMeal }
+                    image={ element.strMealThumb }
+                  />
+                ))
+              )
+              : (
+                recipes.slice(0, limiteDeReceitas).map((element, index) => (
+                  <RecipeCard
+                    index={ index }
+                    key={ index }
+                    name={ element.strDrink }
+                    image={ element.strDrinkThumb }
+                  />
+                ))
+              )}
+          </div>
         )}
     </div>
 
