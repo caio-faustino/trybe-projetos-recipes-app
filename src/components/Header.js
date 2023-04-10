@@ -6,12 +6,8 @@ import { SearchBar } from '../SearchBar';
 import './Header.css';
 
 function Header(props) {
-  const { title, iconeProfile = false, iconeSearch = false } = props;
+  const { title, iconeProfile = false, iconeSearch = false, setPesquisa } = props;
   const [mostrarPesquisa, setMostrarPesquisa] = React.useState(false);
-
-  const history = useHistory();
-  const isMeal = history.location.pathname.includes('/meals');
-  // console.log(history.location.pathname);
   return (
     <div>
       <h1 data-testid="page-title">{title}</h1>
@@ -35,7 +31,8 @@ function Header(props) {
             />
           </button>
         )}
-      { mostrarPesquisa && (<SearchBar isMeal={ isMeal } />)}
+      { mostrarPesquisa
+          && (<SearchBar setPesquisa={ setPesquisa } />)}
     </div>
   );
 }

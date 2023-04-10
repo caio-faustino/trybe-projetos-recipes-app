@@ -1,8 +1,10 @@
 import React from 'react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { SWRConfig } from 'swr';
+import { mockarCategorias, restaurarFetch } from '../util/mockadores';
+import App from '../App';
 
 function withRouter(component, history) {
   return (
@@ -32,4 +34,11 @@ export function renderWithRouter(
     ...render(withCacheAndRouter(component, history)),
     history,
   };
+}
+
+export async function renderizarCaminho(caminho) {
+  mockarCategorias();
+  renderWithRouter(<App />, { initialEntries: [caminho] });
+  await act(async () => { });
+  restaurarFetch();
 }

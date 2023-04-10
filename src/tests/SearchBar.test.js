@@ -2,8 +2,7 @@ import React from 'react';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
-import { pegarEndpoint, pegarListaDeProdutos, SearchBar } from '../SearchBar';
-import { renderWithRouter } from './renderWith';
+import { renderizarCaminho, renderWithRouter } from './renderWith';
 import {
   mockarAlert,
   mockarCategorias,
@@ -13,6 +12,8 @@ import {
 
 import mealIcon from '../images/mealIcon.svg';
 import drinkIcon from '../images/drinkIcon.svg';
+import { pegarListaDeProdutos } from '../pages/Recipes';
+import { pegarEndpoint } from '../SearchBar';
 
 describe('Testing SearchBar component', () => {
   afterEach(() => {
@@ -26,7 +27,10 @@ describe('Testing SearchBar component', () => {
   const radioButtonFristLetterID = 'first-letter-search-radio';
 
   it('Testa a função pegarEndpoint para comidas para cada filtro', async () => {
-    renderWithRouter(<SearchBar isMeal />);
+    await renderizarCaminho('/meals');
+
+    const botaoIniciarPesquisa = await screen.findByTestId(/search-top-btn/);
+    userEvent.click(botaoIniciarPesquisa);
 
     const searchInput = await screen.findByTestId(searchInputID);
     expect(searchInput).toBeVisible();
@@ -45,8 +49,8 @@ describe('Testing SearchBar component', () => {
     userEvent.click(radioButtonName);
     expect(pegarEndpoint(true, PESQUISAR)).toBe(`https://www.themealdb.com/api/json/v1/1/search.php?s=${PESQUISAR}`);
 
-    const radioButtonFristLetter = await screen.findByTestId(radioButtonFristLetterID);
-    userEvent.click(radioButtonFristLetter);
+    const radioButtonFirstLetter = await screen.findByTestId(radioButtonFristLetterID);
+    userEvent.click(radioButtonFirstLetter);
     expect(pegarEndpoint(true, 'A')).toBe('https://www.themealdb.com/api/json/v1/1/search.php?f=A');
 
     mockarAlert();
@@ -55,7 +59,10 @@ describe('Testing SearchBar component', () => {
   });
 
   it('Testa a função pegarEndpoint para bebidas', async () => {
-    renderWithRouter(<SearchBar />);
+    await renderizarCaminho('/drinks');
+
+    const botaoIniciarPesquisa = await screen.findByTestId(/search-top-btn/);
+    userEvent.click(botaoIniciarPesquisa);
 
     const searchInput = await screen.findByTestId(searchInputID);
     expect(searchInput).toBeVisible();
@@ -99,12 +106,7 @@ describe('Testing SearchBar component', () => {
   });
 
   it('Verificar se chama alerta ao receber da API obj vazio', async () => {
-    mockarAlert();
-    mockarCategorias();
-    // const data = await pegarListaDeProdutos('url', true);
-    renderWithRouter(<App />, { initialEntries: ['/meals'] });
-    await act(async () => { });
-    jest.spyOn(global, 'fetch').mockClear();
+    await renderizarCaminho('/meals');
 
     const RECEITA_MOCK = {};
     mockarFetch(RECEITA_MOCK);
@@ -118,6 +120,7 @@ describe('Testing SearchBar component', () => {
 
     userEvent.type(searchInput, 'inexistente');
     userEvent.click(radioButtonName);
+    mockarAlert();
     userEvent.click(botaoPesquisar);
 
     // expect(global.fetch).toHaveBeenCalledTimes(1);
@@ -203,9 +206,7 @@ describe('Testing SearchBar component', () => {
   });
 
   it('Verifica se e renderizado ate 12 comidas quando achado mais que uma', async () => {
-    mockarCategorias();
-    renderWithRouter(<App />, { initialEntries: ['/meals'] });
-    restaurarFetch();
+    await renderizarCaminho('/meals');
 
     const RECEITA_MOCK = {
       meals: [
@@ -248,9 +249,7 @@ describe('Testing SearchBar component', () => {
   });
 
   it.skip('Verifica se são renderizados os drinks quando achado mais que uma', async () => {
-    mockarCategorias();
-    renderWithRouter(<App />, { initialEntries: ['/drinks'] });
-    restaurarFetch();
+    await renderizarCaminho('/drinks');
 
     const RECEITA_MOCK = {
       meals: [

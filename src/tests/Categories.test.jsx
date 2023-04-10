@@ -1,18 +1,23 @@
 import { act, screen } from '@testing-library/react';
-import { Categories } from '../components/Categories';
+import userEvent from '@testing-library/user-event';
 import { fetchCategories, headersJson } from '../util/fetchers';
 import { mockarFetch, mockarFetchComErro } from '../util/mockadores';
 import { renderWithRouter } from './renderWith';
+import App from '../App';
+import { Categories } from '../components/Categories';
 
 async function testarChave(CATEGORIA_MOCK, chave) {
   const resultado = CATEGORIA_MOCK;
   const { length } = resultado[chave];
-  expect(screen.getAllByTestId(/-category-filter/).length).toBe(length);
+  expect(screen.getAllByTestId(/-category-filter/).length).toBe(length + 1);
   for (let i = 0; i < length; i += 1) {
     const { strCategory } = resultado[chave][i];
     const botao = screen.getByTestId(`${strCategory}-category-filter`);
     expect(botao).toBeInTheDocument();
   }
+
+  const botalAll = screen.getByTestId('All-category-filter');
+  expect(botalAll).toBeInTheDocument();
 }
 
 describe('Testa o elemento Categories', () => {
@@ -29,14 +34,37 @@ describe('Testa o elemento Categories', () => {
 
     mockarFetch(CATEGORIA_MOCK);
 
-    renderWithRouter(<Categories isMeal />);
+    renderWithRouter(<App />, { initialEntries: ['/meals'] });
     await act(async () => { });
 
-    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(global.fetch).toHaveBeenCalledTimes(2);
     expect(global.fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/list.php?c=list', headersJson);
 
     const chave = 'meals';
     await testarChave(CATEGORIA_MOCK, chave);
+
+    {
+      const botao = screen.getByTestId('Cat1-category-filter');
+      expect(botao).toBeInTheDocument();
+
+      // Selecionar a categoria
+      await act(async () => {
+        userEvent.click(botao);
+      });
+
+      // De-selecionar a categoria
+      await act(async () => {
+        userEvent.click(botao);
+      });
+    }
+
+    {
+      const botao = screen.getByTestId('All-category-filter');
+      expect(botao).toBeInTheDocument();
+      await act(async () => {
+        userEvent.click(botao);
+      });
+    }
   });
 
   it('Categorias de bebidas', async () => {
@@ -48,10 +76,10 @@ describe('Testa o elemento Categories', () => {
 
     mockarFetch(CATEGORIA_MOCK);
 
-    renderWithRouter(<Categories />);
+    renderWithRouter(<App />, { initialEntries: ['/drinks'] });
     await act(async () => { });
 
-    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(global.fetch).toHaveBeenCalledTimes(2);
     expect(global.fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list', headersJson);
 
     const chave = 'drinks';
@@ -85,7 +113,7 @@ describe('Testa o elemento Categories', () => {
     const FALHA_REGEX = /Falhei rude/i;
 
     mockarFetchComErro(FALHA_MSG);
-    renderWithRouter(<Categories isMeal />);
+    renderWithRouter(<Categories />, { initialEntries: ['/meals'] });
 
     const textoFalha = await screen.findByText(FALHA_REGEX);
     expect(textoFalha).toBeVisible();
