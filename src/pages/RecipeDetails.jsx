@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+
 function RecipeDetails() {
   const { id } = useParams();
   const history = useHistory();
@@ -10,8 +13,9 @@ function RecipeDetails() {
   const [comidasRecomendadas, setComidasRecomendadas] = useState([]);
   const [ingredientes, setIngredientes] = useState([]);
   const [video, setVideo] = useState('');
+  const [linkCopiado, setLinkCopiado] = useState(false);
   const limiteDeReceitas = 6;
-  // const limiteDeIngredientes = 21;
+  const tempoMsgDeCopiado = 3500;
   // // const [tipoReceita, setTipo] = useState('');
   useEffect(() => {
     if (pathname.includes('meals')) {
@@ -76,7 +80,24 @@ function RecipeDetails() {
       }
     }
   }, [receita]);
-  console.log(receita);
+
+  async function copyTextToClipboard(text) {
+    if ('clipboard' in navigator) {
+      return navigator.clipboard.writeText(text);
+    }
+  }
+  const handleCopyClick = () => {
+    copyTextToClipboard(`http://localhost:3000${pathname}`)
+      .then(() => {
+        setLinkCopiado(true);
+        setTimeout(() => {
+          setLinkCopiado(false);
+        }, tempoMsgDeCopiado);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   return (
     <div>
@@ -97,6 +118,20 @@ function RecipeDetails() {
                     <p data-testid="recipe-category">
                       {receita.strCategory}
                     </p>
+                    <button
+                      data-testid="share-btn"
+                      className="icone-link"
+                      onClick={ handleCopyClick }
+                    >
+                      <img src={ shareIcon } alt="share" />
+                      <span>{linkCopiado ? 'Link copied!' : ''}</span>
+                    </button>
+                    <button
+                      data-testid="favorite-btn"
+                      className="icone-link"
+                    >
+                      <img src={ whiteHeartIcon } alt="favorite" />
+                    </button>
                   </div>
 
                   <div>
@@ -142,6 +177,20 @@ function RecipeDetails() {
                     <p data-testid="recipe-category">
                       {`${receita.strCategory} : ${receita.strAlcoholic}`}
                     </p>
+                    <button
+                      data-testid="share-btn"
+                      className="icone-link"
+                      onClick={ handleCopyClick }
+                    >
+                      <img src={ shareIcon } alt="share" />
+                      <span>{linkCopiado ? 'Link copied!' : ''}</span>
+                    </button>
+                    <button
+                      data-testid="favorite-btn"
+                      className="icone-link"
+                    >
+                      <img src={ whiteHeartIcon } alt="favorite" />
+                    </button>
                   </div>
 
                   <div>
@@ -174,7 +223,6 @@ function RecipeDetails() {
             bottom: '0px' } }
           className="start-button"
           data-testid="start-recipe-btn"
-          // disabled={ disabled }
         >
           Start Recipe
         </button>
