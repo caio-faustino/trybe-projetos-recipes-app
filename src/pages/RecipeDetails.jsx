@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import BtnStart from '../components/BtnStart';
+=======
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+
+>>>>>>> 428d85380db58965effa8922f095d2b94218adcf
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import BlackHeartIcon from '../images/blackHeartIcon.svg';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -241,6 +246,20 @@ function RecipeDetails() {
           </div>
         )
       }
+<<<<<<< HEAD
+=======
+      <div>
+        <button
+          style={ { position: 'fixed',
+            bottom: '0px' } }
+          className="start-button"
+          data-testid="start-recipe-btn"
+          onClick={ () => { history.push(`${pathname}/in-progress`); } }
+        >
+          Start Recipe
+        </button>
+      </div>
+>>>>>>> 428d85380db58965effa8922f095d2b94218adcf
     </div>
   );
 }

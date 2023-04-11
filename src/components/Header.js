@@ -1,17 +1,13 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import { SearchBar } from '../SearchBar';
 import './Header.css';
 
 function Header(props) {
-  const { title, iconeProfile = false, iconeSearch = false } = props;
+  const { title, iconeProfile = false, iconeSearch = false, setPesquisa } = props;
   const [mostrarPesquisa, setMostrarPesquisa] = React.useState(false);
-
-  const history = useHistory();
-  const isMeal = history.location.pathname.includes('/meals');
-  // console.log(history.location.pathname);
   return (
     <div>
       <h1 data-testid="page-title">{title}</h1>
@@ -35,7 +31,8 @@ function Header(props) {
             />
           </button>
         )}
-      { mostrarPesquisa && (<SearchBar isMeal={ isMeal } />)}
+      { mostrarPesquisa
+          && (<SearchBar setPesquisa={ setPesquisa } />)}
     </div>
   );
 }
