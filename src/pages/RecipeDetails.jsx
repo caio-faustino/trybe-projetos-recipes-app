@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+
 import BtnStart from '../components/BtnStart';
-import shareIcon from '../images/shareIcon.svg';
+import BtnShare from '../components/BtnShare';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function RecipeDetails() {
@@ -15,9 +16,7 @@ function RecipeDetails() {
   const [receitasFavoritas, setReceitasFavoritas] = useState([]);
   const [ingredientes, setIngredientes] = useState([]);
   const [video, setVideo] = useState('');
-  const [linkCopiado, setLinkCopiado] = useState(false);
   const limiteDeReceitas = 6;
-  const tempoMsgDeCopiado = 3500;
   useEffect(() => {
     setReceitasFavoritas(JSON.parse(localStorage.getItem('favoriteRecipes')));
     if (pathname.includes('meals')) {
@@ -77,23 +76,6 @@ function RecipeDetails() {
       }
     }
   }, [receita]);
-  async function copyTextToClipboard(text) {
-    if ('clipboard' in navigator) {
-      return navigator.clipboard.writeText(text);
-    }
-  }
-  const handleCopyClick = () => {
-    copyTextToClipboard(`http://localhost:3000${pathname}`)
-      .then(() => {
-        setLinkCopiado(true);
-        setTimeout(() => {
-          setLinkCopiado(false);
-        }, tempoMsgDeCopiado);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
   const handleFavoriteClick = () => {
     let recipeTemp = [];
     const obj = {
@@ -135,14 +117,7 @@ function RecipeDetails() {
                     <p data-testid="recipe-category">
                       {receita.strCategory}
                     </p>
-                    <button
-                      data-testid="share-btn"
-                      className="icone-link"
-                      onClick={ handleCopyClick }
-                    >
-                      <img src={ shareIcon } alt="share" />
-                      <span>{linkCopiado ? 'Link copied!' : ''}</span>
-                    </button>
+                    <BtnShare pathname={ pathname } />
                     <button
                       data-testid="favorite-btn"
                       className="icone-link"
@@ -193,14 +168,7 @@ function RecipeDetails() {
                     <p data-testid="recipe-category">
                       {`${receita.strCategory} : ${receita.strAlcoholic}`}
                     </p>
-                    <button
-                      data-testid="share-btn"
-                      className="icone-link"
-                      onClick={ handleCopyClick }
-                    >
-                      <img src={ shareIcon } alt="share" />
-                      <span>{linkCopiado ? 'Link copied!' : ''}</span>
-                    </button>
+                    <BtnShare pathname={ pathname } />
                     <button
                       data-testid="favorite-btn"
                       className="icone-link"
