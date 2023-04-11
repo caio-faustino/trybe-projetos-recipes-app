@@ -97,4 +97,21 @@ describe('Testa a página Profile', () => {
     expect(loginHeader).toBeVisible();
     expect(screen.queryByRole('heading', { name: 'Profile' })).not.toBeInTheDocument();
   });
+
+  it('Testa a renderização correta quando não há usuário logado', () => {
+    localStorage.clear();
+    const { container } = renderWithRouter(<Profile />);
+  
+    expect(screen.queryByTestId('profile-email')).not.toBeInTheDocument();
+    expect(container.querySelector('h1')).toHaveTextContent('Página não encontrada');
+  });
+
+  it('Testa a renderização correta quando o usuário logado não possui e-mail', () => {
+    localStorage.setItem('user', JSON.stringify({}));
+  
+    const { container } = renderWithRouter(<Profile />);
+  
+    expect(screen.queryByTestId('profile-email')).not.toBeInTheDocument();
+    expect(container.querySelector('h1')).toHaveTextContent('Página não encontrada');
+  });
 });
