@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-
+import BtnStart from '../components/BtnStart';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import BlackHeartIcon from '../images/blackHeartIcon.svg';
@@ -20,18 +20,12 @@ function RecipeDetails() {
   const limiteDeReceitas = 6;
   const tempoMsgDeCopiado = 3500;
   useEffect(() => {
-    // Aqui eu recupero o LocalStorage
     setReceitasFavoritas(JSON.parse(localStorage.getItem('favoriteRecipes')));
     if (pathname.includes('meals')) {
       fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
         .then((response) => response.json())
         .then((data) => {
           setReceita(data.meals[0]);
-          // if (
-          //   receitasFavoritas.find((e) => e.id === data.meals[0].id)
-          // ) { setIsFavorite(true); }
-          // console.log(receitasFavoritas);
-          // ReceitasFavoritas ainda nao foi setado nesse ponto
         });
       fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
         .then((response) => response.json())
@@ -55,11 +49,6 @@ function RecipeDetails() {
 
   useEffect(() => {
     if (receita) {
-      // if (receitasFavoritas) {
-      //   if (receitasFavoritas.find((e) => e.id === receita.id)) {
-      //     console.log('doideira');
-      //   }
-      // }
       const limiteDeIngredientes = 21;
       const keysIngredients = Object.keys(receita)
         .filter((element) => element.includes('Ingredient'));
@@ -135,8 +124,6 @@ function RecipeDetails() {
       localStorage.setItem('favoriteRecipes', JSON.stringify({ recipeTemp }));
     }
   };
-  // console.log(isFavorite);
-  // console.log(receitasFavoritas);
   return (
     <div>
       {
@@ -246,23 +233,14 @@ function RecipeDetails() {
                     <h2 data-testid="recipe-category">Instructions</h2>
                     <p data-testid="instructions">{receita.strInstructions}</p>
                   </div>
-
                 </div>
               )}
+            {/* colocar a const do type e do id para funcionar no btnStart e enviar as props*/}
+            <BtnStart type={} />
+
           </div>
         )
       }
-      <div>
-        <button
-          style={ { position: 'fixed',
-            bottom: '0px' } }
-          className="start-button"
-          data-testid="start-recipe-btn"
-          onClick={ () => {history.push(`${pathname}/in-progress`)} }
-        >
-          Start Recipe
-        </button>
-      </div>
     </div>
   );
 }
