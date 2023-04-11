@@ -3,7 +3,8 @@ import { useParams, useHistory } from 'react-router-dom';
 
 import BtnStart from '../components/BtnStart';
 import BtnShare from '../components/BtnShare';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import BtnLike from '../components/BtnLike';
+// import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -13,12 +14,14 @@ function RecipeDetails() {
   // const [isFavorite, setIsFavorite] = useState(false);
   const [drinkRecomendados, setDrinkRecomendados] = useState([]);
   const [comidasRecomendadas, setComidasRecomendadas] = useState([]);
-  const [receitasFavoritas, setReceitasFavoritas] = useState([]);
+  // const [receitasFavoritas, setReceitasFavoritas] = useState([]);
   const [ingredientes, setIngredientes] = useState([]);
   const [video, setVideo] = useState('');
   const limiteDeReceitas = 6;
   useEffect(() => {
-    setReceitasFavoritas(JSON.parse(localStorage.getItem('favoriteRecipes')));
+    // Precisa disso ?
+    // setReceitasFavoritas(JSON.parse(localStorage.getItem('favoriteRecipes')));
+    //-----
     if (pathname.includes('meals')) {
       fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
         .then((response) => response.json())
@@ -76,28 +79,6 @@ function RecipeDetails() {
       }
     }
   }, [receita]);
-  const handleFavoriteClick = () => {
-    let recipeTemp = [];
-    const obj = {
-      id: (receita.idMeal) ? receita.idMeal : receita.idDrink,
-      type: (pathname.includes('meals')) ? 'meal' : 'drink',
-      nationality: (receita.strArea) ? receita.strArea : '',
-      category: receita.strCategory,
-      alcoholicOrNot: (receita.strAlcoholic) ? receita.strAlcoholic : '',
-      name: (receita.strMeal) ? receita.strMeal : receita.strDrink,
-      image: (receita.strMealThumb) ? receita.strMealThumb : receita.strDrinkThumb,
-    };
-    console.log(obj);
-    if (receitasFavoritas) {
-      recipeTemp = [...receitasFavoritas, obj];
-      console.log(recipeTemp);
-    } else {
-      recipeTemp.push(obj);
-      console.log(recipeTemp);
-    }
-    setReceitasFavoritas(recipeTemp);
-    localStorage.setItem('favoriteRecipes', JSON.stringify(recipeTemp));
-  };
   return (
     <div>
       {
@@ -118,13 +99,7 @@ function RecipeDetails() {
                       {receita.strCategory}
                     </p>
                     <BtnShare pathname={ pathname } />
-                    <button
-                      data-testid="favorite-btn"
-                      className="icone-link"
-                      onClick={ handleFavoriteClick }
-                    >
-                      <img src={ whiteHeartIcon } alt="favorite" />
-                    </button>
+                    <BtnLike receita={ receita } />
                   </div>
                   <div>
                     <h2 data-testid="recipe-category">Ingredients</h2>
@@ -169,13 +144,7 @@ function RecipeDetails() {
                       {`${receita.strCategory} : ${receita.strAlcoholic}`}
                     </p>
                     <BtnShare pathname={ pathname } />
-                    <button
-                      data-testid="favorite-btn"
-                      className="icone-link"
-                      onClick={ handleFavoriteClick }
-                    >
-                      <img src={ whiteHeartIcon } alt="favorite" />
-                    </button>
+                    <BtnLike receita={ receita } />
                   </div>
                   <div>
                     <h2 data-testid="recipe-category">Ingredients</h2>

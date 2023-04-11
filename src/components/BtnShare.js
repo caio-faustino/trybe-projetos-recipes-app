@@ -6,7 +6,6 @@ import shareIcon from '../images/shareIcon.svg';
 function BtnShare({ pathname }) {
   const tempoMsgDeCopiado = 3500;
   const [linkCopiado, setLinkCopiado] = useState(false);
-  console.log(pathname);
 
   async function copyTextToClipboard(text) {
     if ('clipboard' in navigator) {
@@ -16,7 +15,6 @@ function BtnShare({ pathname }) {
 
   const handleCopyClick = () => {
     const text = `http://localhost:3000${pathname}`;
-    console.log(text);
     copyTextToClipboard(text)
       .then(() => {
         setLinkCopiado(true);
