@@ -26,6 +26,7 @@ describe('Testa a página Profile', () => {
     userEvent.click(profileTopBtn);
 
     const profileHeader = screen.getByRole('heading', { name: 'Profile' });
+    // eslint-disable-next-line sonarjs/no-duplicate-string
     const profileEmail = screen.getByTestId('profile-email');
     const doneRecipesBtn = screen.getByTestId('profile-done-btn');
     const favoriteRecipesBtn = screen.getByTestId('profile-favorite-btn');
@@ -101,16 +102,16 @@ describe('Testa a página Profile', () => {
   it('Testa a renderização correta quando não há usuário logado', () => {
     localStorage.clear();
     const { container } = renderWithRouter(<Profile />);
-  
+
     expect(screen.queryByTestId('profile-email')).not.toBeInTheDocument();
     expect(container.querySelector('h1')).toHaveTextContent('Página não encontrada');
   });
 
   it('Testa a renderização correta quando o usuário logado não possui e-mail', () => {
     localStorage.setItem('user', JSON.stringify({}));
-  
+
     const { container } = renderWithRouter(<Profile />);
-  
+
     expect(screen.queryByTestId('profile-email')).not.toBeInTheDocument();
     expect(container.querySelector('h1')).toHaveTextContent('Página não encontrada');
   });
