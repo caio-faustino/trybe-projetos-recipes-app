@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import BtnStart from '../components/BtnStart';
-=======
-import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-
->>>>>>> 428d85380db58965effa8922f095d2b94218adcf
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
@@ -15,7 +9,7 @@ function RecipeDetails() {
   const history = useHistory();
   const { pathname } = history.location;
   const [receita, setReceita] = useState();
-  const [isFavorite, setIsFavorite] = useState(false);
+  // const [isFavorite, setIsFavorite] = useState(false);
   const [drinkRecomendados, setDrinkRecomendados] = useState([]);
   const [comidasRecomendadas, setComidasRecomendadas] = useState([]);
   const [receitasFavoritas, setReceitasFavoritas] = useState([]);
@@ -68,12 +62,12 @@ function RecipeDetails() {
           break;
         }
       }
-      const data = keysIngredients.slice(0, limite)
+      const listaDeIngredientes = keysIngredients.slice(0, limite)
         .map((element, index) => [
           element,
           `${index}-ingredient-name-and-measure`,
           keysMeasurements[index]]);
-      setIngredientes(data);
+      setIngredientes(listaDeIngredientes);
       if (receita.strYoutube) {
         const ytVideo = receita.strYoutube;
         ytVideo.slice(ytVideo.indexOf('='), ytVideo.length);
@@ -101,33 +95,26 @@ function RecipeDetails() {
       });
   };
   const handleFavoriteClick = () => {
-    if (pathname.includes('meals')) {
-      const meal = {
-        id: receita.idMeal,
-        type: 'meal',
-        nationality: receita.strArea,
-        category: receita.strCategory,
-        alcoholicOrNot: '',
-        name: receita.strMeal,
-        image: receita.strMealThumb,
-      };
-      const recipeTemp = [...receitasFavoritas, meal];
-      setReceitasFavoritas(recipeTemp);
-      localStorage.setItem('favoriteRecipes', JSON.stringify(recipeTemp));
+    let recipeTemp = [];
+    const obj = {
+      id: (receita.idMeal) ? receita.idMeal : receita.idDrink,
+      type: (pathname.includes('meals')) ? 'meal' : 'drink',
+      nationality: (receita.strArea) ? receita.strArea : '',
+      category: receita.strCategory,
+      alcoholicOrNot: (receita.strAlcoholic) ? receita.strAlcoholic : '',
+      name: (receita.strMeal) ? receita.strMeal : receita.strDrink,
+      image: (receita.strMealThumb) ? receita.strMealThumb : receita.strDrinkThumb,
+    };
+    console.log(obj);
+    if (receitasFavoritas) {
+      recipeTemp = [...receitasFavoritas, obj];
+      console.log(recipeTemp);
     } else {
-      const drink = {
-        id: receita.idDrink,
-        type: 'drink',
-        nationality: '',
-        category: receita.strCategory,
-        alcoholicOrNot: receita.strAlcoholic,
-        name: receita.strDrink,
-        image: receita.strDrinkThumb,
-      };
-      const recipeTemp = [...receitasFavoritas, drink];
-      setReceitasFavoritas(recipeTemp);
-      localStorage.setItem('favoriteRecipes', JSON.stringify({ recipeTemp }));
+      recipeTemp.push(obj);
+      console.log(recipeTemp);
     }
+    setReceitasFavoritas(recipeTemp);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(recipeTemp));
   };
   return (
     <div>
@@ -217,6 +204,7 @@ function RecipeDetails() {
                     <button
                       data-testid="favorite-btn"
                       className="icone-link"
+                      onClick={ handleFavoriteClick }
                     >
                       <img src={ whiteHeartIcon } alt="favorite" />
                     </button>
@@ -240,26 +228,14 @@ function RecipeDetails() {
                   </div>
                 </div>
               )}
-            {/* colocar a const do type e do id para funcionar no btnStart e enviar as props*/}
-            <BtnStart type={} />
-
+            <BtnStart
+              type={ (pathname.includes('meals')
+                ? 'meals' : 'drinks') }
+              id={ receita.id }
+            />
           </div>
         )
       }
-<<<<<<< HEAD
-=======
-      <div>
-        <button
-          style={ { position: 'fixed',
-            bottom: '0px' } }
-          className="start-button"
-          data-testid="start-recipe-btn"
-          onClick={ () => { history.push(`${pathname}/in-progress`); } }
-        >
-          Start Recipe
-        </button>
-      </div>
->>>>>>> 428d85380db58965effa8922f095d2b94218adcf
     </div>
   );
 }
