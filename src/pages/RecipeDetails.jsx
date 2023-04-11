@@ -166,9 +166,10 @@ function RecipeDetails() {
                 </div>
               )}
             <BtnStart
+              history={ history }
               type={ (pathname.includes('meals')
                 ? 'meals' : 'drinks') }
-              id={ receita.id }
+              id={ (receita.idMeal) ? receita.idMeal : receita.idDrink }
             />
           </div>
         )
