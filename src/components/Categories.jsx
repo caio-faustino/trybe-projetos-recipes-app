@@ -3,7 +3,6 @@ import useSWR from 'swr';
 import * as Toggle from '@radix-ui/react-toggle';
 import { useHistory } from 'react-router-dom';
 import { fetchCategories } from '../util/fetchers';
-import './Categories.css';
 
 export function CategoriesWrapped({ filters, setFilters }) {
   const history = useHistory();
