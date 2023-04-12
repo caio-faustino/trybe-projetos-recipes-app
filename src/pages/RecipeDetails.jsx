@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
+import BtnStart from '../components/BtnStart';
+import BtnShare from '../components/BtnShare';
+import BtnLike from '../components/BtnLike';
+// import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+
 function RecipeDetails() {
   const { id } = useParams();
   const history = useHistory();
   const { pathname } = history.location;
   const [receita, setReceita] = useState();
-  const [drinkRecomendados, setDrinkRecomendados] = useState([]);
-  const [comidasRecomendadas, setComidasRecomendadas] = useState([]);
+  // const [isFavorite, setIsFavorite] = useState(false);
+  const [, setDrinkRecomendados] = useState([]);
+  const [, setComidasRecomendadas] = useState([]);
+  // const [receitasFavoritas, setReceitasFavoritas] = useState([]);
   const [ingredientes, setIngredientes] = useState([]);
   const [video, setVideo] = useState('');
   const limiteDeReceitas = 6;
-  // const limiteDeIngredientes = 21;
-  // // const [tipoReceita, setTipo] = useState('');
   useEffect(() => {
+    // Precisa disso ?
+    // setReceitasFavoritas(JSON.parse(localStorage.getItem('favoriteRecipes')));
+    //-----
     if (pathname.includes('meals')) {
       fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
         .then((response) => response.json())
@@ -27,7 +35,6 @@ function RecipeDetails() {
         });
     }
     if (pathname.includes('drinks')) {
-      console.log('Passei');
       fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`)
         .then((response) => response.json())
         .then((data) => {
@@ -44,7 +51,6 @@ function RecipeDetails() {
   useEffect(() => {
     if (receita) {
       const limiteDeIngredientes = 21;
-      console.log(Object.keys(receita));
       const keysIngredients = Object.keys(receita)
         .filter((element) => element.includes('Ingredient'));
       const keysMeasurements = Object.keys(receita)
@@ -54,19 +60,16 @@ function RecipeDetails() {
       for (let i = 0; i < limiteDeIngredientes; i += 1) {
         if ((receita[keysIngredients[i]] == null
            || (receita[keysIngredients[i]] === ''))) {
-          console.log(i);
           limite = keysIngredients.slice(0, i).length;
           break;
         }
       }
-      console.log(limite);
-      const data = keysIngredients.slice(0, limite)
+      const listaDeIngredientes = keysIngredients.slice(0, limite)
         .map((element, index) => [
           element,
           `${index}-ingredient-name-and-measure`,
           keysMeasurements[index]]);
-      setIngredientes(data);
-
+      setIngredientes(listaDeIngredientes);
       if (receita.strYoutube) {
         const ytVideo = receita.strYoutube;
         ytVideo.slice(ytVideo.indexOf('='), ytVideo.length);
@@ -76,8 +79,6 @@ function RecipeDetails() {
       }
     }
   }, [receita]);
-  console.log(receita);
-
   return (
     <div>
       {
@@ -97,8 +98,9 @@ function RecipeDetails() {
                     <p data-testid="recipe-category">
                       {receita.strCategory}
                     </p>
+                    <BtnShare pathname={ pathname } />
+                    <BtnLike receita={ receita } />
                   </div>
-
                   <div>
                     <h2 data-testid="recipe-category">Ingredients</h2>
                     {
@@ -112,7 +114,6 @@ function RecipeDetails() {
                       ))
                     }
                   </div>
-
                   <div>
                     <h2 data-testid="recipe-category">Instructions</h2>
                     <p data-testid="instructions">{receita.strInstructions}</p>
@@ -142,8 +143,9 @@ function RecipeDetails() {
                     <p data-testid="recipe-category">
                       {`${receita.strCategory} : ${receita.strAlcoholic}`}
                     </p>
+                    <BtnShare pathname={ pathname } />
+                    <BtnLike receita={ receita } />
                   </div>
-
                   <div>
                     <h2 data-testid="recipe-category">Ingredients</h2>
                     {
@@ -157,28 +159,20 @@ function RecipeDetails() {
                       ))
                     }
                   </div>
-
                   <div>
                     <h2 data-testid="recipe-category">Instructions</h2>
                     <p data-testid="instructions">{receita.strInstructions}</p>
                   </div>
-
                 </div>
               )}
+            <BtnStart
+              type={ (pathname.includes('meals')
+                ? 'meals' : 'drinks') }
+              id={ (receita.idMeal) ? receita.idMeal : receita.idDrink }
+            />
           </div>
         )
       }
-      <div>
-        <button
-          style={ { position: 'fixed',
-            bottom: '0px' } }
-          className="start-button"
-          data-testid="start-recipe-btn"
-          // disabled={ disabled }
-        >
-          Start Recipe
-        </button>
-      </div>
     </div>
   );
 }
