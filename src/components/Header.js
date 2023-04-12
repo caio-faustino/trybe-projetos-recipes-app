@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
-import { SearchBar } from '../SearchBar';
+import { SearchBar } from './SearchBar';
 import './Header.css';
 
 function Header(props) {

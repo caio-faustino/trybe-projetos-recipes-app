@@ -1,6 +1,6 @@
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { fetchCategories, headersJson } from '../util/fetchers';
+import { fetchCategories } from '../util/fetchers';
 import { mockarFetch, mockarFetchComErro } from '../util/mockadores';
 import { renderWithRouter } from './renderWith';
 import App from '../App';
@@ -38,7 +38,7 @@ describe('Testa o elemento Categories', () => {
     await act(async () => { });
 
     expect(global.fetch).toHaveBeenCalledTimes(2);
-    expect(global.fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/list.php?c=list', headersJson);
+    expect(global.fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
 
     const chave = 'meals';
     await testarChave(CATEGORIA_MOCK, chave);
@@ -80,7 +80,7 @@ describe('Testa o elemento Categories', () => {
     await act(async () => { });
 
     expect(global.fetch).toHaveBeenCalledTimes(2);
-    expect(global.fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list', headersJson);
+    expect(global.fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
 
     const chave = 'drinks';
     await testarChave(CATEGORIA_MOCK, chave);

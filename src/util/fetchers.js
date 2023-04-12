@@ -3,8 +3,6 @@ export const fetchJson = async (...args) => {
   return response.json();
 };
 
-export const headersJson = { headers: { Accept: 'application/json' } };
-
 const MAX_CAT = 5;
 
 export const fetchCategories = async (isMeal, maximo = MAX_CAT) => {
@@ -13,7 +11,7 @@ export const fetchCategories = async (isMeal, maximo = MAX_CAT) => {
     : 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
 
   // console.log('endpoint', endpoint);
-  const response = await fetch(endpoint, { headers: { Accept: 'application/json' } });
+  const response = await fetch(endpoint);
   if (!response.ok) return [];
   // console.log('response', response);
   const data = await response.json();

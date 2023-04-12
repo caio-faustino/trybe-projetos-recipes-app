@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const ERRO_BUSCA_POR_LETRA = 'Your search must have only 1 (one) character';
 
@@ -38,6 +39,10 @@ export function pegarEndpoint(isMeal, searchTerm) {
 export function SearchBar({ setPesquisa }) {
   const [search, setSearch] = useState('');
 
+  const history = useHistory();
+  const { pathname } = history.location;
+  const isMeal = pathname.includes('/meals');
+
   return (
     <div>
       <form
@@ -45,7 +50,7 @@ export function SearchBar({ setPesquisa }) {
         onSubmit={ (event) => {
           event.preventDefault();
           // console.log(event);
-          setPesquisa({ search, endpoint: pegarEndpoint(true, search) });
+          setPesquisa({ search, endpoint: pegarEndpoint(isMeal, search) });
         } }
       >
         <input
