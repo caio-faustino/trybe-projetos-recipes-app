@@ -1,12 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import RecipeCard from './RecipeCard';
 
-function SearchResultWrapped({ isMeal, recipes }) {
+function SearchResultWrapped({ recipes }) {
+  const history = useHistory();
+  const { pathname } = history.location;
+
+  console.log(recipes);
+
   if (!recipes) return;
   return (
     <div>
-      {isMeal
+      {pathname.includes('meals')
         ? (
           recipes.map((element, index) => (
             <Link

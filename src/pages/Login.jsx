@@ -1,16 +1,14 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useLocalStorage } from '../useLocalStorage';
 
 const passwordMinLength = 7;
-
-const salvarUser = (email) => {
-  localStorage.setItem('user', JSON.stringify({ email }));
-};
 
 function Login() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const history = useHistory();
+  const [, setUser] = useLocalStorage('user', { email: '' });
 
   const disabled = !email.match(/\S+@\S+\.\S+/)
       || password.length < passwordMinLength;
@@ -30,7 +28,7 @@ function Login() {
       onSubmit={ (e) => {
         e.preventDefault();
         // if (disabled) return;
-        salvarUser(email);
+        setUser({ email });
         history.push('/meals');
       } }
     >

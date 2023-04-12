@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-// import { useHistory } from 'react-router-dom';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useLocalStorage } from '../useLocalStorage';
@@ -7,20 +6,13 @@ import { useLocalStorage } from '../useLocalStorage';
 // import LocalStorage from '../helpers/LocalStorage';
 
 function BtnStart({ id, type }) {
-  // console.log(id);
-  //   const storageDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-  const [inProgress] = useState(false);
-  const progressRecipe = useLocalStorage('inProgressRecipes', { meals: {}, drinks: {} });
   const history = useHistory();
-  const handleStartClick = () => {
-    localStorage.setItem('inProgressRecipes', JSON.stringify(progressRecipe));
-    history.push(`/${type}/${id}/in-progress`);
-  };
-  /*  useEffect(() => {
-    if (id in progressRecipe[type]) {
-      setInProgress(true);
-    }
-  }, [id, progressRecipe, type]); */
+  const [progressRecipe, setProgressRecipe] = useLocalStorage(
+    'inProgressRecipes',
+    { meals: {}, drinks: {} },
+  );
+  const inProgress = id in progressRecipe[type];
+
   return (
     <div>
       <button
@@ -28,7 +20,12 @@ function BtnStart({ id, type }) {
           bottom: '0px' } }
         className="start-button"
         data-testid="start-recipe-btn"
-        onClick={ handleStartClick }
+        onClick={ () => {
+          const newProgressRecipe = { ...progressRecipe };
+          newProgressRecipe[type][id] = [];
+          setProgressRecipe(newProgressRecipe);
+          history.push(`/${type}/${id}/in-progress`);
+        } }
       >
         {inProgress ? 'Continue Recipe' : 'Start Recipe' }
       </button>

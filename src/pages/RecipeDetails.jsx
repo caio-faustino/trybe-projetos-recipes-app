@@ -2,26 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 import BtnStart from '../components/BtnStart';
-import BtnShare from '../components/BtnShare';
-import BtnLike from '../components/BtnLike';
-// import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import { BtnShare } from '../components/BtnShare';
+import { BtnLike } from '../components/BtnLike';
 
 function RecipeDetails() {
   const { id } = useParams();
   const history = useHistory();
   const { pathname } = history.location;
   const [receita, setReceita] = useState();
-  // const [isFavorite, setIsFavorite] = useState(false);
   const [, setDrinkRecomendados] = useState([]);
   const [, setComidasRecomendadas] = useState([]);
-  // const [receitasFavoritas, setReceitasFavoritas] = useState([]);
   const [ingredientes, setIngredientes] = useState([]);
   const [video, setVideo] = useState('');
   const limiteDeReceitas = 6;
+  // const limiteDeIngredientes = 21;
+  // // const [tipoReceita, setTipo] = useState('');
   useEffect(() => {
-    // Precisa disso ?
-    // setReceitasFavoritas(JSON.parse(localStorage.getItem('favoriteRecipes')));
-    //-----
     if (pathname.includes('meals')) {
       fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
         .then((response) => response.json())
@@ -146,6 +142,7 @@ function RecipeDetails() {
                     <BtnShare pathname={ pathname } />
                     <BtnLike receita={ receita } />
                   </div>
+
                   <div>
                     <h2 data-testid="recipe-category">Ingredients</h2>
                     {

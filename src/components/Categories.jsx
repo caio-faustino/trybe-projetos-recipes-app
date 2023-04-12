@@ -4,7 +4,7 @@ import * as Toggle from '@radix-ui/react-toggle';
 import { useHistory } from 'react-router-dom';
 import { fetchCategories } from '../util/fetchers';
 
-export function CategoriesWrapped({ filters, setFilters }) {
+function CategoriesWrapped({ filters, setFilters }) {
   const history = useHistory();
   const { pathname } = history.location;
   const isMeal = pathname.includes('/meals');
