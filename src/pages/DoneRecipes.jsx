@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import { RecipeCardDone } from '../components/RecipeCardDone';
-import RecipeCard from '../components/RecipeCard';
 
 function DoneRecipes() {
   const pegarDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -44,7 +43,7 @@ function DoneRecipes() {
 
       { (filteredRecipes)
       && filteredRecipes.map((recipe, index) => (
-        <RecipeCard
+        <RecipeCardDone
           key={ index }
           recipe={ recipe }
           index={ index }
