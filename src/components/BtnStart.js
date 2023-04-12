@@ -20,7 +20,7 @@ function BtnStart({ id, type }) {
     if (id in progressRecipe[type]) {
       setInProgress(true);
     }
-  }, []);
+  }, [id, progressRecipe, type]);
   return (
     <div>
       <button

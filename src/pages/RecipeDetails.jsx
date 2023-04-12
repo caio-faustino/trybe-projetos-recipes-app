@@ -12,8 +12,8 @@ function RecipeDetails() {
   const { pathname } = history.location;
   const [receita, setReceita] = useState();
   // const [isFavorite, setIsFavorite] = useState(false);
-  const [drinkRecomendados, setDrinkRecomendados] = useState([]);
-  const [comidasRecomendadas, setComidasRecomendadas] = useState([]);
+  const [, setDrinkRecomendados] = useState([]);
+  const [, setComidasRecomendadas] = useState([]);
   // const [receitasFavoritas, setReceitasFavoritas] = useState([]);
   const [ingredientes, setIngredientes] = useState([]);
   const [video, setVideo] = useState('');
