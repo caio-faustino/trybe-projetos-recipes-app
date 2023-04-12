@@ -13,7 +13,7 @@ import {
 import mealIcon from '../images/mealIcon.svg';
 import drinkIcon from '../images/drinkIcon.svg';
 import { pegarListaDeProdutos } from '../pages/Recipes';
-import { pegarEndpoint } from '../SearchBar';
+import { pegarEndpoint } from '../components/SearchBar';
 
 describe('Testing SearchBar component', () => {
   afterEach(() => {

@@ -7,8 +7,8 @@ import { fetchCategories } from '../util/fetchers';
 export function CategoriesWrapped({ filters, setFilters }) {
   const history = useHistory();
   const { pathname } = history.location;
-
   const isMeal = pathname.includes('/meals');
+
   const trem = isMeal ? 'meals' : 'drinks';
 
   const { data, error, isLoading } = useSWR(
