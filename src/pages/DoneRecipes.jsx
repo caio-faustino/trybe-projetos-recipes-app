@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
+import { RecipeCardDone } from '../components/RecipeCardDone';
 import RecipeCard from '../components/RecipeCard';
 
 function DoneRecipes() {
@@ -18,7 +19,7 @@ function DoneRecipes() {
 
   return (
     <>
-      <RecipeCard />
+      <RecipeCardDone />
       <Header title="Done Recipes" iconeProfile />
       <button
         onClick={ () => handleFilter() }

@@ -103,8 +103,8 @@ function Receitas() {
           setPesquisa={ setPesquisa }
         />
       </div>
-      <Categories isMeal={ isMeal } filters={ filters } setFilters={ setFilters } />
-      <SearchResult isMeal={ isMeal } recipes={ filteredSearchResult } />
+      <Categories filters={ filters } setFilters={ setFilters } />
+      <SearchResult recipes={ filteredSearchResult } />
       <Footer />
     </>
   );
