@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 // import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import { useLocalStorage } from '../useLocalStorage';
 // import LocalStorage from '../helpers/LocalStorage';
 
 function BtnStart({ id, type }) {
   // console.log(id);
   //   const storageDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
   const [inProgress, setInProgress] = useState(false);
-  const progressRecipe = JSON
-    .parse(localStorage
-      .getItem('inProgressRecipes')) || { meals: {}, drinks: {} };
+  const progressRecipe = useLocalStorage('inProgressRecipes', { meals: {}, drinks: {} });
   const history = useHistory();
   const handleStartClick = () => {
     localStorage.setItem('inProgressRecipes', JSON.stringify(progressRecipe));
