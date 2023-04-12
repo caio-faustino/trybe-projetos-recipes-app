@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-// import PropTypes from 'prop-types';
 
 import shareIcon from '../images/shareIcon.svg';
 
-function BtnShare({ pathname }) {
+function BtnShareWrapped({ pathname }) {
   const tempoMsgDeCopiado = 3500;
   const [linkCopiado, setLinkCopiado] = useState(false);
 
@@ -13,18 +12,13 @@ function BtnShare({ pathname }) {
     }
   }
 
-  const handleCopyClick = () => {
+  const handleCopyClick = async () => {
     const text = `http://localhost:3000${pathname}`;
-    copyTextToClipboard(text)
-      .then(() => {
-        setLinkCopiado(true);
-        setTimeout(() => {
-          setLinkCopiado(false);
-        }, tempoMsgDeCopiado);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    await copyTextToClipboard(text);
+    setLinkCopiado(true);
+    setTimeout(() => {
+      setLinkCopiado(false);
+    }, tempoMsgDeCopiado);
   };
   return (
     <div>
@@ -40,5 +34,5 @@ function BtnShare({ pathname }) {
   );
 }
 
-export default BtnShare;
-BtnShare.propTypes = { }.isRequired;
+BtnShareWrapped.propTypes = { }.isRequired;
+export const BtnShare = React.memo(BtnShareWrapped);

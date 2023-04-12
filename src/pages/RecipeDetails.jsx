@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 import BtnStart from '../components/BtnStart';
-import BtnShare from '../components/BtnShare';
-import BtnLike from '../components/BtnLike';
+import { BtnShare } from '../components/BtnShare';
+import { BtnLike } from '../components/BtnLike';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -139,6 +139,8 @@ function RecipeDetails() {
                     <p data-testid="recipe-category">
                       {`${receita.strCategory} : ${receita.strAlcoholic}`}
                     </p>
+                    <BtnShare pathname={ pathname } />
+                    <BtnLike receita={ receita } />
                   </div>
 
                   <div>
