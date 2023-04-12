@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useLocalStorage } from '../useLocalStorage';
 
 function Profile({ history }) {
-  const email = JSON.parse(localStorage.getItem('user'));
+  const [email] = useLocalStorage('user');
   return (
     <>
       <div>
