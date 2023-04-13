@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import Header from '../components/Header';
-
-export const CHAVE_FAVORITES = 'favoriteRecipes';
+import { ContextoBonito } from '../ContextoBonito';
+import RecipeCard from '../components/RecipeCard';
 
 function FavoriteRecipes() {
-  const [receitasFavoritdas] = useLocalStorage(CHAVE_FAVORITES, []);
-  const [filteredRecipes, setFilteredRecipes] = useState(receitasFavoritdas);
+  const { favorites } = useContext(ContextoBonito);
+  const [filteredRecipes, setFilteredRecipes] = useState(favorites);
 
   const handleFilter = (type) => {
-    const filtradas = receitasFavoritdas.filter((r) => r.type?.startsWith(type));
+    const filtradas = favorites.filter((r) => r.type?.startsWith(type));
 
     setFilteredRecipes(filtradas);
   };
 
   return (
     <>
-      <Header title="Favorites" iconeProfile />
+      <Header title="Favorite Recipes" iconeProfile />
       <button
         onClick={ () => handleFilter('') }
         data-testid="filter-by-all-btn"
@@ -38,7 +38,7 @@ function FavoriteRecipes() {
       </button>
 
       { filteredRecipes?.map((favorite, index) => (
-        <FavoriteRecipes
+        <RecipeCard
           key={ index }
           recipe={ favorite }
           index={ index }

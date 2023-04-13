@@ -25,10 +25,7 @@ export const saveDoneRecipes = () => {
   localStorage.setItem('doneRecipes', JSON.stringify(doneRecipe));
 };
 
-export const getDoneRecipes = () => {
-  const arrayDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-  return arrayDoneRecipes;
-};
+export const getDoneRecipes = () => JSON.parse(localStorage.getItem('doneRecipes'));
 
 export default {
   saveDoneRecipes };
