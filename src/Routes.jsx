@@ -7,7 +7,7 @@ import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Profile from './pages/Profile';
 import RecipeDetails from './pages/RecipeDetails';
-import { ProvedorFavoritos } from './components/ProvedorFavoritos';
+import ProvedorFavoritos from './components/ProvedorFavoritos';
 
 export default function Routes() {
   return (

@@ -14,7 +14,7 @@ export const novoFavorito = (receita) => ({
   image: (receita.strMealThumb) ? receita.strMealThumb : receita.strDrinkThumb,
 });
 
-function BtnLikeWrapped({ receita }) {
+function BtnLike({ receita }) {
   const { favorites, addFavorite, removeFavoriteById } = useContext(ContextoBonito);
   const id = receita.idMeal ? receita.idMeal : receita.idDrink;
   const isFavorite = favorites.some((fav) => fav.id === id);
@@ -49,5 +49,5 @@ function BtnLikeWrapped({ receita }) {
   );
 }
 
-BtnLikeWrapped.propTypes = { }.isRequired;
-export const BtnLike = React.memo(BtnLikeWrapped);
+BtnLike.propTypes = { }.isRequired;
+export default React.memo(BtnLike);

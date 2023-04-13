@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import shareIcon from '../images/shareIcon.svg';
 
-function BtnShareWrapped({ pathname }) {
+function BtnShare({ pathname }) {
   const tempoMsgDeCopiado = 3500;
   const [linkCopiado, setLinkCopiado] = useState(false);
 
@@ -34,5 +34,5 @@ function BtnShareWrapped({ pathname }) {
   );
 }
 
-BtnShareWrapped.propTypes = { }.isRequired;
-export const BtnShare = React.memo(BtnShareWrapped);
+BtnShare.propTypes = { }.isRequired;
+export default React.memo(BtnShare);
