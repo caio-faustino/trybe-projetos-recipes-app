@@ -26,8 +26,6 @@ function RecipeInProgress() {
     newProgressRecipe[type][id] = [];
     setInProgressRecipes(newProgressRecipe);
   }
-  console.log(inProgressRecipes);
-  console.log(inProgressRecipes[type][id]);
 
   let contagemIngredientes = 0;
 
@@ -69,7 +67,7 @@ function RecipeInProgress() {
             if (!key.startsWith('strIngredient') || !data[key]) {
               return null;
             }
-            const index = key.split('strIngredient')[1];
+            const index = key.split('strIngredient')[1] - 1;
             contagemIngredientes = index;
             return (
               <div
@@ -111,6 +109,9 @@ function RecipeInProgress() {
             data-testid="finish-recipe-btn"
             className="botaoPadrao"
             disabled={ inProgressRecipes[type][id].length < contagemIngredientes }
+            onClick={ () => {
+              history.push('/done-recipes');
+            } }
           >
             Finalizar
           </button>
