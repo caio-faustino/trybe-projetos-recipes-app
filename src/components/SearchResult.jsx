@@ -6,12 +6,11 @@ function SearchResultWrapped({ recipes }) {
   const history = useHistory();
   const { pathname } = history.location;
 
-  if (!recipes) return;
   return (
     <div>
       {pathname.includes('meals')
         ? (
-          recipes.map((element, index) => (
+          recipes?.map((element, index) => (
             <Link
               key={ index }
               to={ `/meals/${element.idMeal}` }
@@ -25,7 +24,7 @@ function SearchResultWrapped({ recipes }) {
           ))
         )
         : (
-          recipes.map((element, index) => (
+          recipes?.map((element, index) => (
             <Link
               key={ index }
               to={ `/drinks/${element.idDrink}` }

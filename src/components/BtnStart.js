@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
 import { useLocalStorage } from '../useLocalStorage';
 
 // import LocalStorage from '../helpers/LocalStorage';
 
-function BtnStart({ id, type }) {
-  const history = useHistory();
-  const [progressRecipe, setProgressRecipe] = useLocalStorage(
+function BtnStart({ id, type, history }) {
+  const [inProgressRecipes, setInProgressRecipes] = useLocalStorage(
     'inProgressRecipes',
     { meals: {}, drinks: {} },
   );
-  const inProgress = id in progressRecipe[type];
+  const inProgress = id in inProgressRecipes[type];
 
   return (
     <div>
@@ -21,9 +19,9 @@ function BtnStart({ id, type }) {
         className="start-button"
         data-testid="start-recipe-btn"
         onClick={ () => {
-          const newProgressRecipe = { ...progressRecipe };
+          const newProgressRecipe = { ...inProgressRecipes };
           newProgressRecipe[type][id] = [];
-          setProgressRecipe(newProgressRecipe);
+          setInProgressRecipes(newProgressRecipe);
           history.push(`/${type}/${id}/in-progress`);
         } }
       >
@@ -36,4 +34,4 @@ function BtnStart({ id, type }) {
 BtnStart.propTypes = { type: PropTypes.string,
   id: PropTypes.number }.isRequired;
 
-export default BtnStart;
+export default React.memo(BtnStart);
