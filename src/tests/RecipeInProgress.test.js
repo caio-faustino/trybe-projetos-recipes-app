@@ -1,10 +1,7 @@
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { fetchCategories } from '../util/fetchers';
-import { mockarFetch, mockarFetchComErro } from '../util/mockadores';
 import { renderWithRouter } from './renderWith';
 import App from '../App';
-import { Categories } from '../components/Categories';
 
 describe('Testa o componente RecipeInProgress', () => {
   it('Renderiza', async () => {
