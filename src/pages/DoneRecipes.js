@@ -9,7 +9,7 @@ function DoneRecipes() {
   const [todasAsReceitasFeitas] = useLocalStorage(CHAVE_DONE, []);
   const [filteredRecipes, setFilteredRecipes] = useState(todasAsReceitasFeitas);
 
-  const handleFilter = (type = '') => {
+  const handleFilter = (type) => {
     const filtradas = todasAsReceitasFeitas.filter((r) => r.type?.startsWith(type));
 
     setFilteredRecipes(filtradas);
