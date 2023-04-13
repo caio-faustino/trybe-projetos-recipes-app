@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import '@radix-ui/colors/blackA.css';
 @import '@radix-ui/colors/mauve.css';
 @import '@radix-ui/colors/violet.css';
@@ -124,4 +127,24 @@ button {
 
 .Toggle:focus {
   box-shadow: 0 0 0 2px black;
+}
+
+.botaoPadrao {
+  @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800;
+}
+
+.botaoPadrao:disabled {
+  @apply text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center;
+}
+
+.checkbox {
+  @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600;
+}
+
+.label-ingrediente {
+  @apply ml-2 text-sm font-medium text-gray-900 dark:text-gray-300;
+}
+
+.riscado {
+  text-decoration: line-through solid rgb(0, 0, 0);
 }
