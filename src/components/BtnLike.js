@@ -4,19 +4,15 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { ContextoBonito } from '../ContextoBonito';
 
-export const novoFavorito = (receita) => {
-  const obj = {
-    id: (receita.idMeal) ? receita.idMeal : receita.idDrink,
-    type: (receita.idMeal) ? 'meal' : 'drink',
-    nationality: (receita.strArea) ? receita.strArea : '',
-    category: receita.strCategory,
-    alcoholicOrNot: (receita.strAlcoholic) ? receita.strAlcoholic : '',
-    name: (receita.strMeal) ? receita.strMeal : receita.strDrink,
-    image: (receita.strMealThumb) ? receita.strMealThumb : receita.strDrinkThumb,
-  };
-  // console.log(obj);
-  return obj;
-};
+export const novoFavorito = (receita) => ({
+  id: (receita.idMeal) ? receita.idMeal : receita.idDrink,
+  type: (receita.idMeal) ? 'meal' : 'drink',
+  nationality: (receita.strArea) ? receita.strArea : '',
+  category: receita.strCategory,
+  alcoholicOrNot: (receita.strAlcoholic) ? receita.strAlcoholic : '',
+  name: (receita.strMeal) ? receita.strMeal : receita.strDrink,
+  image: (receita.strMealThumb) ? receita.strMealThumb : receita.strDrinkThumb,
+});
 
 function BtnLikeWrapped({ receita }) {
   const { favorites, addFavorite, removeFavoriteById } = useContext(ContextoBonito);
@@ -30,6 +26,7 @@ function BtnLikeWrapped({ receita }) {
   return (
     <Toggle.Root
       // style={ { width: '6px', height: '6px' } }
+      data-testid="favorite-btn-wrapper"
       pressed={ isFavorite }
       onPressedChange={ () => {
         if (isFavorite) {

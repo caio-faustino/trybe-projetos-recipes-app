@@ -6,8 +6,6 @@ function SearchResultWrapped({ recipes }) {
   const history = useHistory();
   const { pathname } = history.location;
 
-  console.log(recipes);
-
   if (!recipes) return;
   return (
     <div>

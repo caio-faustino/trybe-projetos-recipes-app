@@ -6,20 +6,13 @@ import App from '../App';
 import { CHAVE_FAVORITOS } from '../components/ProvedorFavoritos';
 import oneMeal from '../../cypress/mocks/oneMeal';
 import { novoFavorito } from '../components/BtnLike';
+import { mockarLocalStorage } from './DoneRecipes.test';
 
 describe('Favorites', () => {
   beforeEach(() => {
     global.fetch = fetchMock;
 
-    const storage = new Map();
-    global.LSlength = () => storage.size;
-    jest.spyOn(Object.getPrototypeOf(window.localStorage), 'getItem')
-      .mockImplementation((key) => storage.get(key) || null);
-    jest.spyOn(Object.getPrototypeOf(window.localStorage), 'setItem')
-      .mockImplementation((key, value) => { storage.set(key, value); });
-    jest.spyOn(Object.getPrototypeOf(window.localStorage), 'clear')
-      .mockImplementation(() => storage.clear());
-    localStorage.removeItem = jest.fn().mockImplementation((key) => storage.delete(key));
+    mockarLocalStorage(new Map());
   });
 
   afterEach(() => {
@@ -47,14 +40,15 @@ describe('Favorites', () => {
     renderWithRouter(<App />, { initialEntries: ['/meals/52771'] });
     await act(async () => {});
 
-    const favoriteBtn = screen.getByTestId('favorite-btn');
-    expect(favoriteBtn).toBeVisible();
+    const favoriteBtn = screen.getByTestId('favorite-btn-wrapper');
+    const favoriteImg = screen.getByTestId('favorite-btn');
+    expect(favoriteImg).toBeVisible();
     const ARIA_PRESSED = 'aria-pressed';
     expect(favoriteBtn).toHaveAttribute(ARIA_PRESSED, 'false');
     expect(localStorage.getItem(CHAVE_FAVORITOS)).toBeNull();
     expect(LSlength()).toBe(0);
 
-    userEvent.click(favoriteBtn);
+    userEvent.click(favoriteImg);
     await act(async () => {});
     expect(favoriteBtn).toHaveAttribute(ARIA_PRESSED, 'true');
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
@@ -63,7 +57,7 @@ describe('Favorites', () => {
     // console.log(localStorage.getItem(CHAVE_FAVORITOS));
     expect(LSlength()).toBe(1);
 
-    userEvent.click(favoriteBtn);
+    userEvent.click(favoriteImg);
     // await act(async () => {});
     expect(favoriteBtn).toHaveAttribute(ARIA_PRESSED, 'false');
     expect(localStorage.getItem(CHAVE_FAVORITOS)).toBe('[]');

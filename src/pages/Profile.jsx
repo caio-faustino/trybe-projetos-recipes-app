@@ -5,14 +5,14 @@ import Footer from '../components/Footer';
 import { useLocalStorage } from '../useLocalStorage';
 
 function Profile({ history }) {
-  const [email] = useLocalStorage('user');
+  const [user] = useLocalStorage('user');
   return (
     <>
       <div>
         <Header title="Profile" iconeProfile search={ false } />
 
         <h1 data-testid="profile-email">
-          { email && email.email }
+          { user && user.email }
         </h1>
 
         <button
