@@ -47,6 +47,33 @@ function RecipeInProgress() {
             {' '}
             {data.strCategory}
           </p>
+          <h2>Ingredientes</h2>
+          <ol>
+            {Object.keys(data).map((key) => {
+              if (!key.startsWith('strIngredient') || !data[key]) {
+                return null;
+              }
+              const index = key.split('strIngredient')[1];
+              return (
+                <div
+                  className="flex items-center mb-4"
+                  key={ index }
+                  data-testid={ `${index}-ingredient-step` }
+                >
+                  <input
+                    type="checkbox"
+                    className="checkbox"
+                  />
+                  <label
+                    htmlFor="default-checkbox"
+                    className="label-ingrediente"
+                  >
+                    {data[key]}
+                  </label>
+                </div>
+              );
+            })}
+          </ol>
           <h2>Instruções</h2>
           <p data-testid="instructions">{data.strInstructions}</p>
           <button

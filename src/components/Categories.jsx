@@ -19,7 +19,7 @@ function CategoriesWrapped({ filters, setFilters }) {
   const categories = filters ? filters.categories : [];
 
   return (
-    <div style={ { display: 'flex', gap: '5px' } }>
+    <div className="flex gap-[5px]">
       {isLoading && (<div>Carregando categorias...</div>)}
       {!isLoading && error && (
         <div>
