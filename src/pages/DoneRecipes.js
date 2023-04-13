@@ -1,27 +1,25 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import { RecipeCardDone } from '../components/RecipeCardDone';
+import { useLocalStorage } from '../useLocalStorage';
+
+export const CHAVE_DONE = 'doneRecipes';
 
 function DoneRecipes() {
-  const pegarDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-  const [filteredRecipes, setFilteredRecipes] = useState(pegarDoneRecipes
-    && [...pegarDoneRecipes]);
+  const [todasAsReceitasFeitas] = useLocalStorage(CHAVE_DONE, []);
+  const [filteredRecipes, setFilteredRecipes] = useState(todasAsReceitasFeitas);
 
   const handleFilter = (type = '') => {
-    if (pegarDoneRecipes && pegarDoneRecipes.length > 0) {
-      const filteredPegarDoneRecipes = pegarDoneRecipes
-        .filter((recipe) => recipe.type.startsWith(type));
+    const filtradas = todasAsReceitasFeitas.filter((r) => r.type?.startsWith(type));
 
-      setFilteredRecipes([...filteredPegarDoneRecipes]);
-    }
+    setFilteredRecipes(filtradas);
   };
 
   return (
     <>
-      <RecipeCardDone />
       <Header title="Done Recipes" iconeProfile />
       <button
-        onClick={ () => handleFilter() }
+        onClick={ () => handleFilter('') }
         data-testid="filter-by-all-btn"
       >
         All
@@ -41,8 +39,7 @@ function DoneRecipes() {
         Drinks
       </button>
 
-      { (filteredRecipes)
-      && filteredRecipes.map((recipe, index) => (
+      { filteredRecipes?.map((recipe, index) => (
         <RecipeCardDone
           key={ index }
           recipe={ recipe }

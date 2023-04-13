@@ -69,7 +69,7 @@ function RecipeDetails() {
       if (receita.strYoutube) {
         const ytVideo = receita.strYoutube;
         ytVideo.slice(ytVideo.indexOf('='), ytVideo.length);
-        console.log(ytVideo);
+        // console.log(ytVideo);
         const finalVideo = `https://www.youtube.com/embed/${ytVideo}`;
         setVideo(finalVideo);
       }
