@@ -21,16 +21,14 @@ function BtnShare({ pathname }) {
     }, tempoMsgDeCopiado);
   };
   return (
-    <div>
-      <button
-        data-testid="share-btn"
-        className="icone-link"
-        onClick={ handleCopyClick }
-      >
-        <img src={ shareIcon } alt="share" />
-        <span>{linkCopiado ? 'Link copied!' : ''}</span>
-      </button>
-    </div>
+    <button
+      data-testid="share-btn"
+      className="icone-link"
+      onClick={ handleCopyClick }
+    >
+      <img src={ shareIcon } alt="share" />
+      <span>{linkCopiado ? 'Link copied!' : ''}</span>
+    </button>
   );
 }
 

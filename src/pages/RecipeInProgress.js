@@ -8,7 +8,8 @@ import { useLocalStorage } from '../useLocalStorage';
 
 function RecipeInProgress() {
   const history = useHistory();
-  const isMeal = history.location.pathname.includes('/meals');
+  const { pathname } = history.location;
+  const isMeal = pathname.includes('/meals');
   const { id } = useParams();
   const type = isMeal ? 'meals' : 'drinks';
 
@@ -54,7 +55,7 @@ function RecipeInProgress() {
             {data.strMeal || data.strDrink}
           </h1>
           <div className="flex gap-4">
-            <BtnShare data-testid="share-btn" />
+            <BtnShare pathname={ `/${type}/${id}` } history={ history } />
             <BtnLike data-testid="favorite-btn" receita={ data } />
           </div>
           <p data-testid="recipe-category">
@@ -68,7 +69,7 @@ function RecipeInProgress() {
               return null;
             }
             const index = key.split('strIngredient')[1] - 1;
-            contagemIngredientes = index;
+            contagemIngredientes = index + 1;
             return (
               <div
                 className="flex items-center mb-4"
