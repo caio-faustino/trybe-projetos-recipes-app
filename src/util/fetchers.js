@@ -22,3 +22,17 @@ export const fetchCategories = async (isMeal, maximo = MAX_CAT) => {
   const categories = isMeal ? data.meals : data.drinks;
   return categories ? categories.slice(0, maximo) : [];
 };
+
+export const pegarReceita = async (isMeal, id) => {
+  const endpoint = isMeal
+    ? `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+    : `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+
+  const response = await fetch(endpoint);
+  if (!response.ok) return [];
+  // console.log('response', response);
+  const data = await response.json();
+  // console.log('data: ', data);
+  if (!data) return [];
+  return isMeal ? data.meals[0] : data.drinks[0];
+};
