@@ -10,10 +10,11 @@ function CategoriesWrapped({ filters, setFilters }) {
   const isMeal = pathname.includes('/meals');
 
   const trem = isMeal ? 'meals' : 'drinks';
+  const quantasCategorias = 5;
 
   const { data, error, isLoading } = useSWR(
     `categories/${trem}`,
-    () => fetchCategories(isMeal),
+    () => fetchCategories(isMeal, quantasCategorias),
   );
 
   const categories = filters ? filters.categories : [];
@@ -26,39 +27,43 @@ function CategoriesWrapped({ filters, setFilters }) {
           Não foi possível carregar categorias:
           {error.message}
         </div>)}
+
       {!isLoading && (
-        <Toggle.Root
-          className="Toggle"
-          data-testid="All-category-filter"
-          pressed={ categories.length === 0 }
-          onPressedChange={ () => {
-            setFilters({ ...filters, categories: [] });
-          } }
-        >
-          All
-        </Toggle.Root>
-      )}
-      {!isLoading && data && data.map((category) => {
-        const categoria = category.strCategory;
-        return (
+        <div className="inline-flex rounded-md shadow-sm" role="group">
           <Toggle.Root
-            className="Toggle"
-            key={ categoria }
-            data-testid={ `${categoria}-category-filter` }
-            pressed={ categories.includes(categoria) }
-            /* className="cursor-pointer" */
-            onPressedChange={ (pressed) => {
-              if (pressed) {
-                setFilters({ ...filters, categories: [categoria] });
-              } else {
-                setFilters({ ...filters, categories: [] });
-              }
+            className="primeiroBotao"
+            data-testid="All-category-filter"
+            pressed={ categories.length === 0 }
+            onPressedChange={ () => {
+              setFilters({ ...filters, categories: [] });
             } }
           >
-            {categoria}
+            All
           </Toggle.Root>
-        );
-      })}
+
+          {data?.map((category, index) => {
+            const categoria = category.strCategory;
+            return (
+              <Toggle.Root
+                className={ (index + 1) < quantasCategorias ? 'botoesDoMeio' : 'ultimoBotao' }
+                key={ categoria }
+                data-testid={ `${categoria}-category-filter` }
+                pressed={ categories.includes(categoria) }
+                /* className="cursor-pointer" */
+                onPressedChange={ (pressed) => {
+                  if (pressed) {
+                    setFilters({ ...filters, categories: [categoria] });
+                  } else {
+                    setFilters({ ...filters, categories: [] });
+                  }
+                } }
+              >
+                {categoria}
+              </Toggle.Root>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

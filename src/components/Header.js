@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import { SearchBar } from './SearchBar';
-import './Header.css';
+// import './Header.css';
 
 function Header(props) {
   const { title, iconeProfile = false, iconeSearch = false, setPesquisa } = props;
