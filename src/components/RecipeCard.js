@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 
 function RecipeCard(props) {
   const { name, image, index } = props;
@@ -8,6 +7,7 @@ function RecipeCard(props) {
     <div data-testid={ `${index}-recipe-card` }>
       <h1 data-testid={ `${index}-card-name` }>{ name }</h1>
       <img
+        className="w-[300px] h-[300px] object-cover"
         data-testid={ `${index}-card-img` }
         src={ image }
         alt={ name }

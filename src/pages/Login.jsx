@@ -1,14 +1,11 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { useLocalStorage } from '../useLocalStorage';
+import LoginInterno from '../components/LoginInterno';
 
 const passwordMinLength = 7;
 
 function Login() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const history = useHistory();
-  const [, setUser] = useLocalStorage('user', { email: '' });
 
   const disabled = !email.match(/\S+@\S+\.\S+/)
       || password.length < passwordMinLength;
@@ -24,39 +21,38 @@ function Login() {
   };
 
   return (
-    <form
-      onSubmit={ (e) => {
-        e.preventDefault();
-        // if (disabled) return;
-        setUser({ email });
-        history.push('/meals');
-      } }
-    >
-      <input
-        type="email"
-        placeholder="email"
-        name="login"
-        id="login"
-        data-testid="email-input"
-        value={ email }
-        onChange={ handleChange }
-      />
-      <input
-        type="password"
-        name="password"
-        id="password"
-        data-testid="password-input"
-        value={ password }
-        onChange={ handleChange }
-      />
-      <button
-        type="submit"
-        data-testid="login-submit-btn"
-        disabled={ disabled }
+    <section className="bg-gray-50 dark:bg-gray-900">
+      <div
+        className={ 'flex flex-col items-center justify-center '
+            + 'px-6 py-8 mx-auto md:h-screen lg:py-0' }
       >
-        ENTER
-      </button>
-    </form>
+        <p
+          className={ 'flex items-center mb-6 text-2xl font-semibold '
+                + 'text-gray-900 dark:text-white' }
+        >
+          Recipes
+        </p>
+        <div
+          className={ 'w-full bg-white rounded-lg shadow dark:border '
+              + 'md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700' }
+        >
+          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1
+              className={ 'text-xl font-bold leading-tight tracking-tight '
+                  + 'text-gray-900 md:text-2xl dark:text-white' }
+            >
+              Sign in to your account
+            </h1>
+            <LoginInterno
+              email={ email }
+              password={ password }
+              handleChange={ handleChange }
+              disabled={ disabled }
+            />
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 

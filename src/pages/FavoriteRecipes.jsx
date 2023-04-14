@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { ContextoBonito } from '../ContextoBonito';
 import RecipeCard from '../components/RecipeCard';
@@ -38,19 +39,22 @@ function FavoriteRecipes() {
       </button>
 
       { filteredRecipes?.map((favorite, index) => (
-        <RecipeCard
+        <Link
+          to={ `/${favorite.type}s/${favorite.id}` }
           key={ index }
-          recipe={ favorite }
-          index={ index }
-          image={ favorite.image }
-          name={ favorite.name }
-          date={ favorite.doneDate }
-          tags={ favorite.tags }
-          type={ favorite.type }
-          id={ favorite.id }
-          categoria={ `${favorite.nationality} - ${favorite.category} -
+          className="text-decoration-none"
+        >
+          <RecipeCard
+            recipe={ favorite }
+            index={ index }
+            image={ favorite.image }
+            name={ favorite.name }
+            date={ favorite.doneDate }
+            tags={ favorite.tags }
+            categoria={ `${favorite.nationality} - ${favorite.category} -
             ${favorite.alcoholicOrNot}` }
-        />
+          />
+        </Link>
       ))}
     </>
 
