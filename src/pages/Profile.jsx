@@ -3,41 +3,20 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useLocalStorage } from '../useLocalStorage';
+import ProfileButtonGroup from '../components/ProfileButtonGroup';
 
-function Profile({ history }) {
+function Profile() {
   const [user] = useLocalStorage('user');
+
   return (
     <>
       <div>
+        <ProfileButtonGroup />
         <Header title="Profile" iconeProfile search={ false } />
 
         <h1 data-testid="profile-email">
           { user && user.email }
         </h1>
-
-        <button
-          data-testid="profile-done-btn"
-          onClick={ () => history.push('/done-recipes') }
-        >
-          Done Recipes
-        </button>
-
-        <button
-          data-testid="profile-favorite-btn"
-          onClick={ () => history.push('/favorite-recipes') }
-        >
-          Favorite Recipes
-        </button>
-
-        <button
-          data-testid="profile-logout-btn"
-          onClick={ () => {
-            localStorage.clear();
-            history.push('/');
-          } }
-        >
-          Logout
-        </button>
 
       </div>
       <Footer />

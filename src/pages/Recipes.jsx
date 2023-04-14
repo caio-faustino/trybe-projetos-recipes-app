@@ -98,15 +98,13 @@ function Receitas() {
 
   return (
     <>
-      <div>
-        <Header
-          title={ titulo }
-          iconeProfile
-          iconeSearch
-          setPesquisa={ setPesquisa }
-        />
-      </div>
       <Categories category={ category } setCategory={ setCategory } />
+      <Header
+        title={ titulo }
+        iconeProfile
+        iconeSearch
+        setPesquisa={ setPesquisa }
+      />
       <SearchResult recipes={ filteredSearchResult } />
       <Footer />
     </>

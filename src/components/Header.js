@@ -9,8 +9,7 @@ function Header(props) {
   const { title, iconeProfile = false, iconeSearch = false, setPesquisa } = props;
   const [mostrarPesquisa, setMostrarPesquisa] = React.useState(false);
   return (
-    <div>
-      <h1 data-testid="page-title">{title}</h1>
+    <header className="flex flex-wrap gap-4 items-center">
       { iconeProfile
         && (
           <Link className="icone-link" to="/profile">
@@ -31,9 +30,10 @@ function Header(props) {
             />
           </button>
         )}
+      <h1 data-testid="page-title">{title}</h1>
       { mostrarPesquisa
           && (<SearchBar setPesquisa={ setPesquisa } />)}
-    </div>
+    </header>
   );
 }
 

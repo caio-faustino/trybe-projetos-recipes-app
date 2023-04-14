@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import { ContextoBonito } from '../ContextoBonito';
 import RecipeCard from '../components/RecipeCard';
+import ProfileButtonGroup from '../components/ProfileButtonGroup';
 
 function FavoriteRecipes() {
   const { favorites } = useContext(ContextoBonito);
@@ -16,6 +17,7 @@ function FavoriteRecipes() {
 
   return (
     <>
+      <ProfileButtonGroup />
       <Header title="Favorite Recipes" iconeProfile />
       <button
         onClick={ () => handleFilter('') }
