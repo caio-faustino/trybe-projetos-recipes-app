@@ -1,10 +1,10 @@
 import React from 'react';
 import useSWR from 'swr';
-import * as Toggle from '@radix-ui/react-toggle';
+import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { useHistory } from 'react-router-dom';
 import { fetchCategories } from '../util/fetchers';
 
-function CategoriesWrapped({ filters, setFilters }) {
+function Categories({ category, setCategory }) {
   const history = useHistory();
   const { pathname } = history.location;
   const isMeal = pathname.includes('/meals');
@@ -17,8 +17,6 @@ function CategoriesWrapped({ filters, setFilters }) {
     () => fetchCategories(isMeal, quantasCategorias),
   );
 
-  const categories = filters ? filters.categories : [];
-
   return (
     <div className="flex gap-[5px]">
       {isLoading && (<div>Carregando categorias...</div>)}
@@ -29,45 +27,43 @@ function CategoriesWrapped({ filters, setFilters }) {
         </div>)}
 
       {!isLoading && (
-        <div className="inline-flex rounded-md shadow-sm" role="group">
-          <Toggle.Root
+        <ToggleGroup.Root
+          className="inline-flex rounded-md shadow-sm"
+          type="single"
+          defaultValue="All"
+          aria-label="Filter by category"
+          value={ category }
+          onValueChange={ (cat) => setCategory(cat) }
+        >
+          <ToggleGroup.Item
             className="primeiroBotao"
             data-testid="All-category-filter"
-            pressed={ categories.length === 0 }
-            onPressedChange={ () => {
-              setFilters({ ...filters, categories: [] });
-            } }
+            value="All"
+            aria-label="All categories"
           >
             All
-          </Toggle.Root>
-
-          {data?.map((category, index) => {
-            const categoria = category.strCategory;
+          </ToggleGroup.Item>
+          {data?.map((cat, index) => {
+            const categoria = cat.strCategory;
             return (
-              <Toggle.Root
-                className={ (index + 1) < quantasCategorias ? 'botoesDoMeio' : 'ultimoBotao' }
+              <ToggleGroup.Item
                 key={ categoria }
                 data-testid={ `${categoria}-category-filter` }
-                pressed={ categories.includes(categoria) }
-                /* className="cursor-pointer" */
-                onPressedChange={ (pressed) => {
-                  if (pressed) {
-                    setFilters({ ...filters, categories: [categoria] });
-                  } else {
-                    setFilters({ ...filters, categories: [] });
-                  }
-                } }
+                className={ (index + 1) < quantasCategorias
+                  ? 'botoesDoMeio' : 'ultimoBotao' }
+                value={ categoria }
+                aria-label={ categoria }
               >
                 {categoria}
-              </Toggle.Root>
+              </ToggleGroup.Item>
             );
           })}
-        </div>
+        </ToggleGroup.Root>
       )}
     </div>
   );
 }
 
-CategoriesWrapped.propTypes = {}.isRequired;
+Categories.propTypes = {}.isRequired;
 
-export const Categories = React.memo(CategoriesWrapped);
+export default React.memo(Categories);

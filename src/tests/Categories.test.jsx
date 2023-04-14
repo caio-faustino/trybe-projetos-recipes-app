@@ -4,7 +4,6 @@ import { fetchCategories } from '../util/fetchers';
 import { mockarFetch, mockarFetchComErro } from '../util/mockadores';
 import { renderWithRouter } from './renderWith';
 import App from '../App';
-import { Categories } from '../components/Categories';
 
 async function testarChave(CATEGORIA_MOCK, chave) {
   const resultado = CATEGORIA_MOCK;
@@ -113,7 +112,7 @@ describe('Testa o elemento Categories', () => {
     const FALHA_REGEX = /Falhei rude/i;
 
     mockarFetchComErro(FALHA_MSG);
-    renderWithRouter(<Categories />, { initialEntries: ['/meals'] });
+    renderWithRouter(<App />, { initialEntries: ['/meals'] });
 
     const textoFalha = await screen.findByText(FALHA_REGEX);
     expect(textoFalha).toBeVisible();

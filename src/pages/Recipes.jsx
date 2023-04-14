@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
-import { Categories } from '../components/Categories';
+import Categories from '../components/Categories';
 import { SearchResult } from '../components/SearchResult';
 import Header from '../components/Header';
 
@@ -58,7 +58,7 @@ const puxarProdutos = async (
 };
 
 function Receitas() {
-  const [filters, setFilters] = useState({ categories: [] });
+  const [category, setCategory] = useState('All');
   const [pesquisa, setPesquisa] = useState({
     search: '',
     endpoint: '',
@@ -73,7 +73,7 @@ function Receitas() {
 
   useEffect(() => {
     const func = async () => {
-      if (filters.categories.length === 0) {
+      if (category === 'All') {
         // Não selecionou categoria
         await puxarProdutos(
           pesquisa.endpoint,
@@ -83,15 +83,18 @@ function Receitas() {
         );
       } else {
         // se não há pesquisa, olha as categorias
+
+        const categoryText = category === 'All' ? '' : category;
+
         const endpoint = isMeal
-          ? `https://www.themealdb.com/api/json/v1/1/filter.php?c=${filters.categories[0]}`
-          : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${filters.categories[0]}`;
+          ? `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryText}`
+          : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryText}`;
         const productsList = await pegarListaDeProdutos(endpoint, isMeal);
         setFilteredSearchResult(productsList.slice(0, limiteDeReceitas));
       }
     };
     func().then();
-  }, [filters.categories, pesquisa.endpoint, isMeal, history]);
+  }, [category, pesquisa.endpoint, isMeal, history]);
 
   return (
     <>
@@ -103,7 +106,7 @@ function Receitas() {
           setPesquisa={ setPesquisa }
         />
       </div>
-      <Categories filters={ filters } setFilters={ setFilters } />
+      <Categories category={ category } setCategory={ setCategory } />
       <SearchResult recipes={ filteredSearchResult } />
       <Footer />
     </>
