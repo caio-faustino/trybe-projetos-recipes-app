@@ -19,10 +19,10 @@ function ProfileButtonGroup() {
       <ToggleGroup.Item
         className="primeiroBotao"
         value="profile"
-        aria-label="Done Recipes"
+        aria-label="Profile"
         onClick={ () => history.push('/profile') }
       >
-        Done Recipes
+        Profile
       </ToggleGroup.Item>
       <ToggleGroup.Item
         className="botoesDoMeio"

@@ -40,13 +40,10 @@ function FavoriteRecipes() {
         Drinks
       </button>
 
-      { filteredRecipes?.map((favorite, index) => (
-        <Link
-          to={ `/${favorite.type}s/${favorite.id}` }
-          key={ index }
-          className="text-decoration-none"
-        >
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 place-items-center">
+        { filteredRecipes?.map((favorite, index) => (
           <RecipeCard
+            key={ index }
             recipe={ favorite }
             index={ index }
             image={ favorite.image }
@@ -55,9 +52,10 @@ function FavoriteRecipes() {
             tags={ favorite.tags }
             categoria={ `${favorite.nationality} - ${favorite.category} -
             ${favorite.alcoholicOrNot}` }
+            linkTo={ `/${favorite.type}s/${favorite.id}` }
           />
-        </Link>
-      ))}
+        ))}
+      </div>
     </>
 
   );

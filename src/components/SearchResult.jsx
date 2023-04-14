@@ -7,34 +7,28 @@ function SearchResultWrapped({ recipes }) {
   const { pathname } = history.location;
 
   return (
-    <div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 place-items-center">
       {pathname.includes('meals')
         ? (
           recipes?.map((element, index) => (
-            <Link
+            <RecipeCard
               key={ index }
-              to={ `/meals/${element.idMeal}` }
-            >
-              <RecipeCard
-                index={ index }
-                name={ element.strMeal }
-                image={ element.strMealThumb }
-              />
-            </Link>
+              index={ index }
+              name={ element.strMeal }
+              image={ element.strMealThumb }
+              linkTo={ `/meals/${element.idMeal}` }
+            />
           ))
         )
         : (
           recipes?.map((element, index) => (
-            <Link
+            <RecipeCard
               key={ index }
-              to={ `/drinks/${element.idDrink}` }
-            >
-              <RecipeCard
-                index={ index }
-                name={ element.strDrink }
-                image={ element.strDrinkThumb }
-              />
-            </Link>
+              index={ index }
+              name={ element.strDrink }
+              image={ element.strDrinkThumb }
+              linkTo={ `/drinks/${element.idDrink}` }
+            />
           ))
         )}
     </div>
