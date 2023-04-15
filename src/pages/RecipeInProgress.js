@@ -34,33 +34,33 @@ function RecipeInProgress() {
 
   return (
     <div
-      className={ 'flex flex-col gap-[5px] items-center '
-        + 'justify-between container h-full' }
+      className={
+        'flex flex-col items-center gap-[5px] '
+      + 'container h-full justify-between'
+      }
     >
-      {isLoading && (<div>Carregando receita...</div>)}
+      {isLoading && <div>Carregando receita...</div>}
       {!isLoading && error && (
         <div>
           Não foi possível carregar a receita:
           {error.message}
-        </div>)}
+        </div>
+      )}
       {!isLoading && (
         <div className="flex flex-col items-start">
           <img
             data-testid="recipe-photo"
-            className="w-[300px] h-[300px] object-cover"
+            className="h-[300px] w-[300px] object-cover"
             src={ data.strMealThumb || data.strDrinkThumb }
             alt="Foto da receita"
           />
-          <h1 data-testid="recipe-title">
-            {data.strMeal || data.strDrink}
-          </h1>
+          <h1 data-testid="recipe-title">{data.strMeal || data.strDrink}</h1>
           <div className="flex gap-4">
             <BtnShare pathname={ `/${type}/${id}` } history={ history } />
             <BtnLike data-testid="favorite-btn" receita={ data } />
           </div>
           <p data-testid="recipe-category">
             Categoria:
-            {' '}
             {data.strCategory}
           </p>
           <h2>Ingredientes</h2>
@@ -72,7 +72,7 @@ function RecipeInProgress() {
             contagemIngredientes = index + 1;
             return (
               <div
-                className="flex items-center mb-4"
+                className="mb-4 flex items-center"
                 key={ index }
                 data-testid={ `${index}-ingredient-step` }
               >
@@ -95,8 +95,11 @@ function RecipeInProgress() {
                 <label
                   htmlFor={ `${index}-ingredient-step` }
                   className={ `label-ingrediente 
-                    ${inProgressRecipes[type][id].includes(index)
-                ? ' riscado' : ''}` }
+                    ${
+              inProgressRecipes[type][id].includes(index)
+                ? ' riscado'
+                : ''
+                  }` }
                 >
                   {data[key]}
                 </label>
@@ -116,9 +119,8 @@ function RecipeInProgress() {
           >
             Finalizar
           </button>
-
         </div>
-      ) }
+      )}
     </div>
   );
 }

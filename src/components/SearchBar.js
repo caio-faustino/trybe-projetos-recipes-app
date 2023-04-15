@@ -4,8 +4,9 @@ import { useHistory } from 'react-router-dom';
 const ERRO_BUSCA_POR_LETRA = 'Your search must have only 1 (one) character';
 
 export function pegarEndpoint(isMeal, searchTerm) {
-  const ingredientRadio = document
-    .querySelector('[data-testid="ingredient-search-radio"]');
+  const ingredientRadio = document.querySelector(
+    '[data-testid="ingredient-search-radio"]',
+  );
   if (ingredientRadio?.checked) {
     // console.log('ingrediente');
     if (isMeal) return `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchTerm}`;
@@ -19,8 +20,9 @@ export function pegarEndpoint(isMeal, searchTerm) {
     return `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchTerm}`;
   }
 
-  const firstLetterRadio = document
-    .querySelector('[data-testid="first-letter-search-radio"]');
+  const firstLetterRadio = document.querySelector(
+    '[data-testid="first-letter-search-radio"]',
+  );
   if (firstLetterRadio?.checked) {
     // console.log('primeira letra');
     if (searchTerm.length > 1) {
@@ -52,15 +54,19 @@ export function SearchBar({ setPesquisa }) {
         setPesquisa({ search, endpoint: pegarEndpoint(isMeal, search) });
       } }
     >
-      <label htmlFor="simple-search" className="sr-only">Search</label>
+      <label htmlFor="simple-search" className="sr-only">
+        Search
+      </label>
       <div className="relative w-full">
         <div
-          className={ 'absolute inset-y-0 left-0 flex items-center '
-                + 'pl-3 pointer-events-none' }
+          className={
+            'absolute inset-y-0 left-0 flex items-center '
+          + 'pointer-events-none pl-3'
+          }
         >
           <svg
             aria-hidden="true"
-            className="w-5 h-5 text-gray-500 dark:text-gray-400"
+            className="h-5 w-5 text-gray-500 dark:text-gray-400"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"

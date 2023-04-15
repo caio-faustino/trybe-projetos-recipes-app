@@ -18,7 +18,7 @@ function LoginInterno({ disabled, handleChange, email, password }) {
       <div>
         <label
           htmlFor="email"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
         >
           Your email
         </label>
@@ -36,7 +36,7 @@ function LoginInterno({ disabled, handleChange, email, password }) {
       <div>
         <label
           htmlFor="password"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
         >
           Password
         </label>

@@ -40,8 +40,11 @@ function FavoriteRecipes() {
         Drinks
       </button>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 place-items-center">
-        { filteredRecipes?.map((favorite, index) => (
+      <div
+        className={ 'grid grid-cols-1 place-items-center gap-4'
+          + 'sm:grid-cols-2 md:grid-cols-3' }
+      >
+        {filteredRecipes?.map((favorite, index) => (
           <RecipeCard
             key={ index }
             recipe={ favorite }
@@ -57,7 +60,6 @@ function FavoriteRecipes() {
         ))}
       </div>
     </>
-
   );
 }
 

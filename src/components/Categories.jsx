@@ -24,7 +24,8 @@ function Categories({ category, setCategory }) {
         <div>
           Não foi possível carregar categorias:
           {error.message}
-        </div>)}
+        </div>
+      )}
 
       {!isLoading && (
         <ToggleGroup.Root
@@ -33,7 +34,7 @@ function Categories({ category, setCategory }) {
           defaultValue="All"
           aria-label="Filter by category"
           value={ category }
-          onValueChange={ (cat) => setCategory(cat) }
+          onValueChange={ (cat) => setCategory(cat === '' ? 'All' : cat) }
         >
           <ToggleGroup.Item
             className="primeiroBotao"
@@ -44,17 +45,17 @@ function Categories({ category, setCategory }) {
             All
           </ToggleGroup.Item>
           {data?.map((cat, index) => {
-            const categoria = cat.strCategory;
+            const { strCategory } = cat;
             return (
               <ToggleGroup.Item
-                key={ categoria }
-                data-testid={ `${categoria}-category-filter` }
-                className={ (index + 1) < quantasCategorias
+                key={ strCategory }
+                data-testid={ `${strCategory}-category-filter` }
+                className={ index + 1 < quantasCategorias
                   ? 'botoesDoMeio' : 'ultimoBotao' }
-                value={ categoria }
-                aria-label={ categoria }
+                value={ strCategory }
+                aria-label={ strCategory }
               >
-                {categoria}
+                {strCategory}
               </ToggleGroup.Item>
             );
           })}

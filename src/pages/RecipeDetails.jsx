@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
-import BtnStart from '../components/BtnStart';
-import BtnShare from '../components/BtnShare';
-import BtnLike from '../components/BtnLike';
+import DetailedMeal from '../components/DetailedMeal';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -76,103 +74,24 @@ function RecipeDetails() {
     }
   }, [receita]);
   return (
-    <div>
-      {
-        (receita)
-        && (
-          <div>
-            { pathname.includes('meals')
-              ? (
-                <div>
-                  <div>
-                    <img
-                      data-testid="recipe-photo"
-                      src={ receita.strMealThumb }
-                      alt="foto da receita"
-                    />
-                    <h1 data-testid="recipe-title">{receita.strMeal}</h1>
-                    <p data-testid="recipe-category">
-                      {receita.strCategory}
-                    </p>
-                    <BtnShare pathname={ pathname } history={ history } />
-                    <BtnLike receita={ receita } />
-                  </div>
-                  <div>
-                    <h2 data-testid="recipe-category">Ingredients</h2>
-                    {
-                      ingredientes.map((element, index) => (
-                        <li
-                          key={ index }
-                          data-testid={ element[1] }
-                        >
-                          {`${receita[element[0]]}:${receita[element[2]]}`}
-                        </li>
-                      ))
-                    }
-                  </div>
-                  <div>
-                    <h2 data-testid="recipe-category">Instructions</h2>
-                    <p data-testid="instructions">{receita.strInstructions}</p>
-                  </div>
-
-                  <div>
-                    <iframe
-                      data-testid="video"
-                      title="Video"
-                      width="420"
-                      height="315"
-                      src={ video }
-                    />
-                  </div>
-                </div>
-
-              )
-              : (
-                <div>
-                  <div>
-                    <img
-                      data-testid="recipe-photo"
-                      src={ receita.strDrinkThumb }
-                      alt="foto da receita"
-                    />
-                    <h1 data-testid="recipe-title">{receita.strDrink}</h1>
-                    <p data-testid="recipe-category">
-                      {`${receita.strCategory} : ${receita.strAlcoholic}`}
-                    </p>
-                    <BtnShare pathname={ pathname } history={ history } />
-                    <BtnLike receita={ receita } />
-                  </div>
-
-                  <div>
-                    <h2 data-testid="recipe-category">Ingredients</h2>
-                    {
-                      ingredientes.map((element, index) => (
-                        <li
-                          key={ index }
-                          data-testid={ element[1] }
-                        >
-                          {`${receita[element[0]]}:${receita[element[2]]}`}
-                        </li>
-                      ))
-                    }
-                  </div>
-                  <div>
-                    <h2 data-testid="recipe-category">Instructions</h2>
-                    <p data-testid="instructions">{receita.strInstructions}</p>
-                  </div>
-                </div>
-              )}
-            <BtnStart
-              type={ (pathname.includes('meals')
-                ? 'meals' : 'drinks') }
-              id={ (receita.idMeal) ? receita.idMeal : receita.idDrink }
-              history={ history }
-            />
-          </div>
-        )
-      }
-    </div>
+    <section className="bg-white dark:bg-gray-900">
+      <div className="mx-auto max-w-6xl py-8 lg:py-16">
+        {receita && (
+          <DetailedMeal
+            receita={ receita }
+            ingredientes={ ingredientes }
+            video={ video }
+            pathname={ pathname }
+            history={ history }
+          />
+        )}
+        {/* {receita && !pathname.includes('meals') && (
+              <DetailedDrink receita={ receita } />
+          )} */}
+      </div>
+    </section>
   );
 }
+
 RecipeDetails.propTypes = { }.isRequired;
 export default React.memo(RecipeDetails);

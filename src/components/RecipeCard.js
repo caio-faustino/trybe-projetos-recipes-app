@@ -7,7 +7,10 @@ function RecipeCard(props) {
   return (
     <div
       data-testid={ `${index}-recipe-card` }
-      className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+      className={
+        'max-w-sm rounded-lg border border-gray-200 bg-white shadow'
+      + ' dark:border-gray-700 dark:bg-gray-800'
+      }
     >
       {linkTo && (
         <>
@@ -25,12 +28,15 @@ function RecipeCard(props) {
             <Link to={ linkTo } className="text-decoration-none">
               <h5
                 data-testid={ `${index}-card-name` }
-                className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white format lg:format-lg format-red"
+                className={
+                  'format lg:format-lg format-red mb-2'
+                    + ' text-2xl font-bold tracking-tight text-gray-900 dark:text-white'
+                }
               >
                 {name}
               </h5>
             </Link>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 hidden" />
+            <p className="mb-3 hidden font-normal text-gray-700 dark:text-gray-400" />
           </div>
         </>
       )}
@@ -48,11 +54,12 @@ function RecipeCard(props) {
           <div className="p-5">
             <h5
               data-testid={ `${index}-card-name` }
-              className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+              className={ 'mb-2 text-2xl font-bold tracking-tight'
+                  + ' text-gray-900 dark:text-white' }
             >
               {name}
             </h5>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 hidden" />
+            <p className="mb-3 hidden font-normal text-gray-700 dark:text-gray-400" />
           </div>
         </>
       )}

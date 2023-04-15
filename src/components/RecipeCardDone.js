@@ -17,15 +17,11 @@ function RecipeCardDoneWrapped(props) {
 
   return (
     <div data-testid={ `${index}-recipe-card` }>
-      <Link
-        to={ `/${type}s/${id}` }
-      >
-        <h1 data-testid={ `${index}-horizontal-name` }>{ name }</h1>
+      <Link to={ `/${type}s/${id}` }>
+        <h1 data-testid={ `${index}-horizontal-name` }>{name}</h1>
       </Link>
-      <p data-testid={ `${index}-horizontal-top-text` }>{ categoria }</p>
-      <Link
-        to={ `/${type}s/${id}` }
-      >
+      <p data-testid={ `${index}-horizontal-top-text` }>{categoria}</p>
+      <Link to={ `/${type}s/${id}` }>
         <img
           src={ image }
           alt={ name }
@@ -33,31 +29,20 @@ function RecipeCardDoneWrapped(props) {
           width="300px"
         />
       </Link>
-      <p data-testid={ `${index}-horizontal-done-date` }>{ date }</p>
-      <p
-        data-testid="link-copied"
-      >
-        { linkCopied }
-      </p>
-      <button
-        onClick={ () => handleClick() }
-      >
+      <p data-testid={ `${index}-horizontal-done-date` }>{date}</p>
+      <p data-testid="link-copied">{linkCopied}</p>
+      <button onClick={ () => handleClick() }>
         <img
           data-testid={ `${index}-horizontal-share-btn` }
           alt="share button"
           src={ icon }
         />
       </button>
-      {
-        tags && tags.map((tag, i) => (
-          <p
-            key={ `${tag}-${i}` }
-            data-testid={ `${index}-${tag}-horizontal-tag` }
-          >
-            {tag}
-          </p>
-        ))
-      }
+      {tags?.map((tag, i) => (
+        <p key={ `${tag}-${i}` } data-testid={ `${index}-${tag}-horizontal-tag` }>
+          {tag}
+        </p>
+      ))}
     </div>
   );
 }
