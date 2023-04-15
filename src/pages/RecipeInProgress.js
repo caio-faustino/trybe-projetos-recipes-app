@@ -95,11 +95,8 @@ function RecipeInProgress() {
                 <label
                   htmlFor={ `${index}-ingredient-step` }
                   className={ `label-ingrediente 
-                    ${
-              inProgressRecipes[type][id].includes(index)
-                ? ' riscado'
-                : ''
-                  }` }
+                    ${inProgressRecipes[type][id].includes(index)
+                ? ' riscado' : ''}` }
                 >
                   {data[key]}
                 </label>

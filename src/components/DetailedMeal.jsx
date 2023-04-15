@@ -1,8 +1,8 @@
-import { TagIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import BtnShare from './BtnShare';
 import BtnLike from './BtnLike';
 import BtnStart from './BtnStart';
+import Categoria from './Categoria';
 
 function DetailedMeal({ receita, ingredientes, video, pathname, history }) {
   const { strCategory, strAlcoholic } = receita;
@@ -16,7 +16,7 @@ function DetailedMeal({ receita, ingredientes, video, pathname, history }) {
           data-testid="recipe-title"
           className={
             'mb-4 flex items-center text-2xl font-bold leading-none '
-                    + 'text-gray-900 dark:text-white sm:mb-5 sm:text-4xl'
+                + 'text-gray-900 dark:text-white sm:mb-5 sm:text-4xl'
           }
         >
           {strMeal}
@@ -24,13 +24,7 @@ function DetailedMeal({ receita, ingredientes, video, pathname, history }) {
         <dl className="mb-4 flex items-center space-x-4 sm:mb-5">
           <div>
             <dt className="sr-only">Category</dt>
-            <dd className="flex items-center text-gray-900 dark:text-white">
-              <TagIcon className="h-6 w-6 text-gray-500" />
-              <span className="font-semibold" data-testid="recipe-category">
-                {strCategory}
-                { strAlcoholic ? ` - ${strAlcoholic}` : '' }
-              </span>
-            </dd>
+            <Categoria strCategory={ strCategory } strAlcoholic={ strAlcoholic } />
           </div>
         </dl>
         <dl>
@@ -50,7 +44,7 @@ function DetailedMeal({ receita, ingredientes, video, pathname, history }) {
       </div>
       <div
         className={ 'rounded-lg border border-gray-200 bg-gray-50 p-4'
-            + ' dark:border-gray-600 dark:bg-gray-700' }
+              + ' dark:border-gray-600 dark:bg-gray-700' }
       >
         <img
           data-testid="recipe-photo"
@@ -69,7 +63,7 @@ function DetailedMeal({ receita, ingredientes, video, pathname, history }) {
           </dt>
           <dd className="font-light text-gray-500 dark:text-gray-400">
             <p data-testid="instructions">{receita.strInstructions}</p>
-            { video && (
+            {video && (
               <iframe
                 className="mx-auto"
                 data-testid="video"
