@@ -12,26 +12,25 @@ function BtnStart({ id, type, history }) {
   const inProgress = id in inProgressRecipes[type];
 
   return (
-    <div>
-      <button
-        style={ { position: 'fixed',
-          bottom: '0px' } }
-        className="start-button"
-        data-testid="start-recipe-btn"
-        onClick={ () => {
-          const newProgressRecipe = { ...inProgressRecipes };
-          newProgressRecipe[type][id] = [];
-          setInProgressRecipes(newProgressRecipe);
-          history.push(`/${type}/${id}/in-progress`);
-        } }
-      >
-        {inProgress ? 'Continue Recipe' : 'Start Recipe' }
-      </button>
-    </div>
+    <button
+      style={ { position: 'fixed', bottom: '0px' } }
+      data-testid="start-recipe-btn"
+      className="!fixed !bottom-0 botaoAzul"
+      onClick={ () => {
+        const newProgressRecipe = { ...inProgressRecipes };
+        newProgressRecipe[type][id] = [];
+        setInProgressRecipes(newProgressRecipe);
+        history.push(`/${type}/${id}/in-progress`);
+      } }
+    >
+      {inProgress ? 'Continue Recipe' : 'Start Recipe' }
+    </button>
   );
 }
 
-BtnStart.propTypes = { type: PropTypes.string,
-  id: PropTypes.number }.isRequired;
+BtnStart.propTypes = {
+  type: PropTypes.string,
+  id: PropTypes.number,
+}.isRequired;
 
 export default React.memo(BtnStart);

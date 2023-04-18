@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from '../components/Header';
 import { RecipeCardDone } from '../components/RecipeCardDone';
 import { useLocalStorage } from '../useLocalStorage';
+import ProfileButtonGroup from '../components/ProfileButtonGroup';
 
 export const CHAVE_DONE = 'doneRecipes';
 
@@ -17,6 +18,7 @@ function DoneRecipes() {
 
   return (
     <>
+      <ProfileButtonGroup />
       <Header title="Done Recipes" iconeProfile />
       <button
         onClick={ () => handleFilter('') }

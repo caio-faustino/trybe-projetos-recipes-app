@@ -6,7 +6,7 @@ import App from '../App';
 describe('Component BtnStart', () => {
   it('Renderiza', async () => {
     renderWithRouter(<App />, { initialEntries: ['/drinks/178319'] });
-    // await act(async () => {});
+    await act(async () => {});
 
     {
       const btn = await screen.findByTestId('start-recipe-btn');

@@ -1,24 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import '@radix-ui/colors/blackA.css';
-@import '@radix-ui/colors/mauve.css';
-@import '@radix-ui/colors/violet.css';
-
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
 
 .meals {
   align-items: center;
@@ -37,30 +19,15 @@ code {
   max-height: 80vh;
 }
 
-/*
-#iceLeft {
-  animation: clink .8s infinite ease;
-  opacity: 0.6;
-  transform-origin: 36px 66px;
-}
-
-#iceRight {
-  animation: clink .8s .2s infinite ease;
-  opacity: 0.6;
-  transform-origin: 60px 78px;
-}
-*/
-
 .meals > .logo {
   animation: shake 1.5s infinite ease;
   color: aliceblue;
-  font-family: Montserrat , sans-serif;
+  font-family: Montserrat, sans-serif;
   font-size: 3em;
   font-weight: 900;
 }
 
 @keyframes shake {
-
   0% {
     transform: rotate(5deg);
   }
@@ -75,7 +42,6 @@ code {
 }
 
 @keyframes clink {
-
   0% {
     transform: rotate(-10deg);
   }
@@ -92,12 +58,6 @@ code {
 .footer {
   bottom: 0;
   position: fixed;
-}
-
-
-/* reset */
-button {
-  all: unset;
 }
 
 .Toggle {
@@ -120,7 +80,7 @@ button {
   background-color: var(--violet3);
 }
 
-.Toggle[ data-state = 'on' ] {
+.Toggle[data-state="on"] {
   background-color: var(--violet6);
   color: var(--violet12);
 }
@@ -130,15 +90,15 @@ button {
 }
 
 .botaoPadrao {
-  @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800;
+  @apply w-full rounded-lg px-5 text-center text-sm font-medium text-white bg-primary-600 py-2.5 hover:bg-primary-700 focus:ring-primary-300 focus:outline-none focus:ring-4 disabled:cursor-not-allowed dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800;
 }
 
-.botaoPadrao:disabled {
-  @apply text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center;
-}
+/*.botaoPadrao:disabled {
+  @apply cursor-not-allowed;
+}*/
 
 .checkbox {
-  @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600;
+  @apply h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600;
 }
 
 .label-ingrediente {
@@ -147,4 +107,47 @@ button {
 
 .riscado {
   text-decoration: line-through solid rgb(0, 0, 0);
+}
+
+.email-input {
+  @apply block w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 p-2.5 focus:border-primary-600 focus:ring-primary-600 dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:text-sm dark:focus:border-blue-500 dark:focus:ring-blue-500;
+}
+
+.primeiroBotao {
+  @apply rounded-l-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:text-blue-700 focus:ring-2 focus:ring-blue-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white dark:focus:text-white dark:focus:ring-blue-500;
+  @apply data-[state=on]:bg-gray-100 data-[state=on]:text-blue-700 data-[state=on]:dark:bg-gray-600 data-[state=on]:dark:text-white;
+}
+
+.botoesDoMeio {
+  @apply border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:text-blue-700 focus:ring-2 focus:ring-blue-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white dark:focus:text-white dark:focus:ring-blue-500;
+  @apply data-[state=on]:bg-gray-100 data-[state=on]:text-blue-700 data-[state=on]:dark:bg-gray-600 data-[state=on]:dark:text-white;
+}
+
+.ultimoBotao {
+  @apply rounded-r-md border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:text-blue-700 focus:ring-2 focus:ring-blue-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white dark:focus:text-white dark:focus:ring-blue-500;
+  @apply data-[state=on]:bg-gray-100 data-[state=on]:text-blue-700 data-[state=on]:dark:bg-gray-600 data-[state=on]:dark:text-white;
+}
+
+.inputRadio {
+  @apply h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600;
+}
+
+.search-input {
+  @apply block w-full rounded-lg border border-gray-300 bg-gray-50 pl-10 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500 dark:placeholder-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-blue-500 dark:focus:ring-blue-500;
+}
+
+.search-button {
+  @apply ml-2 rounded-lg border border-blue-700 bg-blue-700 text-sm font-medium text-white p-2.5 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800;
+}
+
+.botaoAzul {
+  @apply inline-flex items-center rounded-lg px-5 text-center text-sm font-medium text-white bg-primary-700 py-2.5 hover:bg-primary-800 focus:ring-primary-300 focus:outline-none focus:ring-4 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800;
+}
+
+.botaoBranco {
+  @apply inline-flex items-center rounded-lg border border-gray-200 bg-white px-5 text-center text-sm font-medium text-gray-900 py-2.5 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700;
+}
+
+.botaoVermelho {
+  @apply inline-flex items-center rounded-lg bg-red-600 px-5 text-center text-sm font-medium text-white py-2.5 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900;
 }

@@ -23,14 +23,21 @@ function BtnShare({ pathname }) {
   return (
     <button
       data-testid="share-btn"
-      className="icone-link"
+      type="button"
+      className="botaoBranco"
       onClick={ handleCopyClick }
     >
-      <img src={ shareIcon } alt="share" />
+      <img
+        src={ shareIcon }
+        alt="share"
+        className="-ml-1 mr-1.5 h-5 w-5 fill-white"
+      />
+      Share
       <span>{linkCopiado ? 'Link copied!' : ''}</span>
     </button>
   );
 }
 
+BtnShare.propTypes = {}.isRequired;
 BtnShare.propTypes = { }.isRequired;
 export default React.memo(BtnShare);

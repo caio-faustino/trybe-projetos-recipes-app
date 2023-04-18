@@ -1,22 +1,21 @@
 import React from 'react';
 import useSWR from 'swr';
-import * as Toggle from '@radix-ui/react-toggle';
+import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { useHistory } from 'react-router-dom';
 import { fetchCategories } from '../util/fetchers';
 
-function CategoriesWrapped({ filters, setFilters }) {
+function Categories({ category, setCategory }) {
   const history = useHistory();
   const { pathname } = history.location;
   const isMeal = pathname.includes('/meals');
 
   const trem = isMeal ? 'meals' : 'drinks';
+  const quantasCategorias = 5;
 
   const { data, error, isLoading } = useSWR(
     `categories/${trem}`,
-    () => fetchCategories(isMeal),
+    () => fetchCategories(isMeal, quantasCategorias),
   );
-
-  const categories = filters ? filters.categories : [];
 
   return (
     <div className="flex gap-[5px]">
@@ -25,44 +24,47 @@ function CategoriesWrapped({ filters, setFilters }) {
         <div>
           Não foi possível carregar categorias:
           {error.message}
-        </div>)}
-      {!isLoading && (
-        <Toggle.Root
-          className="Toggle"
-          data-testid="All-category-filter"
-          pressed={ categories.length === 0 }
-          onPressedChange={ () => {
-            setFilters({ ...filters, categories: [] });
-          } }
-        >
-          All
-        </Toggle.Root>
+        </div>
       )}
-      {!isLoading && data && data.map((category) => {
-        const categoria = category.strCategory;
-        return (
-          <Toggle.Root
-            className="Toggle"
-            key={ categoria }
-            data-testid={ `${categoria}-category-filter` }
-            pressed={ categories.includes(categoria) }
-            /* className="cursor-pointer" */
-            onPressedChange={ (pressed) => {
-              if (pressed) {
-                setFilters({ ...filters, categories: [categoria] });
-              } else {
-                setFilters({ ...filters, categories: [] });
-              }
-            } }
+
+      {!isLoading && (
+        <ToggleGroup.Root
+          className="inline-flex rounded-md shadow-sm"
+          type="single"
+          defaultValue="All"
+          aria-label="Filter by category"
+          value={ category }
+          onValueChange={ (cat) => setCategory(cat === '' ? 'All' : cat) }
+        >
+          <ToggleGroup.Item
+            className="primeiroBotao"
+            data-testid="All-category-filter"
+            value="All"
+            aria-label="All categories"
           >
-            {categoria}
-          </Toggle.Root>
-        );
-      })}
+            All
+          </ToggleGroup.Item>
+          {data?.map((cat, index) => {
+            const { strCategory } = cat;
+            return (
+              <ToggleGroup.Item
+                key={ strCategory }
+                data-testid={ `${strCategory}-category-filter` }
+                className={ index + 1 < quantasCategorias
+                  ? 'botoesDoMeio' : 'ultimoBotao' }
+                value={ strCategory }
+                aria-label={ strCategory }
+              >
+                {strCategory}
+              </ToggleGroup.Item>
+            );
+          })}
+        </ToggleGroup.Root>
+      )}
     </div>
   );
 }
 
-CategoriesWrapped.propTypes = {}.isRequired;
+Categories.propTypes = {}.isRequired;
 
-export const Categories = React.memo(CategoriesWrapped);
+export default React.memo(Categories);

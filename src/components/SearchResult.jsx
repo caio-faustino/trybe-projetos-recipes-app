@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import RecipeCard from './RecipeCard';
 
 function SearchResultWrapped({ recipes }) {
@@ -7,34 +7,33 @@ function SearchResultWrapped({ recipes }) {
   const { pathname } = history.location;
 
   return (
-    <div>
+    <div
+      className={
+        'grid grid-cols-1 place-items-center '
+        + 'gap-4 sm:grid-cols-2 md:grid-cols-3'
+      }
+    >
       {pathname.includes('meals')
         ? (
           recipes?.map((element, index) => (
-            <Link
+            <RecipeCard
               key={ index }
-              to={ `/meals/${element.idMeal}` }
-            >
-              <RecipeCard
-                index={ index }
-                name={ element.strMeal }
-                image={ element.strMealThumb }
-              />
-            </Link>
+              index={ index }
+              name={ element.strMeal }
+              image={ element.strMealThumb }
+              linkTo={ `/meals/${element.idMeal}` }
+            />
           ))
         )
         : (
           recipes?.map((element, index) => (
-            <Link
+            <RecipeCard
               key={ index }
-              to={ `/drinks/${element.idDrink}` }
-            >
-              <RecipeCard
-                index={ index }
-                name={ element.strDrink }
-                image={ element.strDrinkThumb }
-              />
-            </Link>
+              index={ index }
+              name={ element.strDrink }
+              image={ element.strDrinkThumb }
+              linkTo={ `/drinks/${element.idDrink}` }
+            />
           ))
         )}
     </div>

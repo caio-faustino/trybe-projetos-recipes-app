@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import Header from '../components/Header';
 import { ContextoBonito } from '../ContextoBonito';
 import RecipeCard from '../components/RecipeCard';
+import ProfileButtonGroup from '../components/ProfileButtonGroup';
 
 function FavoriteRecipes() {
   const { favorites } = useContext(ContextoBonito);
@@ -15,6 +16,7 @@ function FavoriteRecipes() {
 
   return (
     <>
+      <ProfileButtonGroup />
       <Header title="Favorite Recipes" iconeProfile />
       <button
         onClick={ () => handleFilter('') }
@@ -37,23 +39,26 @@ function FavoriteRecipes() {
         Drinks
       </button>
 
-      { filteredRecipes?.map((favorite, index) => (
-        <RecipeCard
-          key={ index }
-          recipe={ favorite }
-          index={ index }
-          image={ favorite.image }
-          name={ favorite.name }
-          date={ favorite.doneDate }
-          tags={ favorite.tags }
-          type={ favorite.type }
-          id={ favorite.id }
-          categoria={ `${favorite.nationality} - ${favorite.category} -
+      <div
+        className={ 'grid grid-cols-1 place-items-center gap-4'
+          + 'sm:grid-cols-2 md:grid-cols-3' }
+      >
+        {filteredRecipes?.map((favorite, index) => (
+          <RecipeCard
+            key={ index }
+            recipe={ favorite }
+            index={ index }
+            image={ favorite.image }
+            name={ favorite.name }
+            date={ favorite.doneDate }
+            tags={ favorite.tags }
+            categoria={ `${favorite.nationality} - ${favorite.category} -
             ${favorite.alcoholicOrNot}` }
-        />
-      ))}
+            linkTo={ `/${favorite.type}s/${favorite.id}` }
+          />
+        ))}
+      </div>
     </>
-
   );
 }
 

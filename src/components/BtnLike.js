@@ -5,13 +5,13 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { ContextoBonito } from '../ContextoBonito';
 
 export const novoFavorito = (receita) => ({
-  id: (receita.idMeal) ? receita.idMeal : receita.idDrink,
-  type: (receita.idMeal) ? 'meal' : 'drink',
-  nationality: (receita.strArea) ? receita.strArea : '',
+  id: receita.idMeal ? receita.idMeal : receita.idDrink,
+  type: receita.idMeal ? 'meal' : 'drink',
+  nationality: receita.strArea ? receita.strArea : '',
   category: receita.strCategory,
-  alcoholicOrNot: (receita.strAlcoholic) ? receita.strAlcoholic : '',
-  name: (receita.strMeal) ? receita.strMeal : receita.strDrink,
-  image: (receita.strMealThumb) ? receita.strMealThumb : receita.strDrinkThumb,
+  alcoholicOrNot: receita.strAlcoholic ? receita.strAlcoholic : '',
+  name: receita.strMeal ? receita.strMeal : receita.strDrink,
+  image: receita.strMealThumb ? receita.strMealThumb : receita.strDrinkThumb,
 });
 
 function BtnLike({ receita }) {
@@ -25,8 +25,8 @@ function BtnLike({ receita }) {
 
   return (
     <Toggle.Root
-      // style={ { width: '6px', height: '6px' } }
       data-testid="favorite-btn-wrapper"
+      className="botaoVermelho"
       pressed={ isFavorite }
       onPressedChange={ () => {
         if (isFavorite) {
@@ -41,10 +41,11 @@ function BtnLike({ receita }) {
     >
       <img
         data-testid="favorite-btn"
-        style={ { width: '20px', height: '20px' } }
+        className="-ml-1 mr-1.5 h-5 w-5 fill-white"
         src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
         alt="favorite"
       />
+      Favoritar
     </Toggle.Root>
   );
 }
